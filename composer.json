@@ -1,0 +1,37 @@
+{
+    "name":              "arkitekto/math",
+    "description":       "PHP library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers",
+    "minimum-stability": "dev",
+    "prefer-stable":     true,
+    "license":           "MIT",
+    "authors":           [
+        {
+            "name":  "Alexandru Furculita",
+            "email": "alex@rhetina.com"
+        }
+    ],
+    "require":           {
+        "php":                    "~5.6|~7.0",
+        "symfony/polyfill-php70": "~1.1"
+    },
+    "require-dev":       {
+        "phpspec/phpspec":                       "~2.4",
+        "behat/behat":                           "~3.0",
+        "coduo/phpspec-data-provider-extension": "~1.0",
+        "fabpot/php-cs-fixer":                   "~1.11"
+    },
+    "autoload":          {
+        "psr-4": {
+            "Arki\\Math\\": "src/"
+        }
+    },
+    "autoload-dev":      {
+        "psr-4": {
+            "spec\\Arki\\Math\\": "spec/"
+        }
+    },
+    "suggest":           {
+        "ext-bcmath": "Install the BCMath (Binary Calculator) extension in order to speed up arbitrary precision integer arithmetic operations.",
+        "ext-gmp":    "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations. GMP seems to be faster than BCMath: http://phpseclib.sourceforge.net/math/intro.html"
+    }
+}

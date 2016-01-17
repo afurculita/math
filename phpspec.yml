@@ -1,0 +1,10 @@
+formatter.name: pretty
+
+suites:
+    main:
+        namespace: Arki\Math
+        psr4_prefix: Arki\Math
+        src_path: ./src
+
+extensions:
+  - Coduo\PhpSpec\DataProvider\DataProviderExtension
