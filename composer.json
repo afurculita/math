@@ -33,5 +33,8 @@
     "suggest":           {
         "ext-bcmath": "Install the BCMath (Binary Calculator) extension in order to speed up arbitrary precision integer arithmetic operations.",
         "ext-gmp":    "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations. GMP seems to be faster than BCMath: http://phpseclib.sourceforge.net/math/intro.html"
+    },
+    "config": {
+        "bin-dir": "bin"
     }
 }
