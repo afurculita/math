@@ -15,10 +15,10 @@
         "symfony/polyfill-php70": "~1.1"
     },
     "require-dev":       {
-        "phpspec/phpspec":                       "dev-master#48e85b7f97f6a14c71e7a3eabfa819fee9e87139",
-        "behat/behat":                           "~3.0",
-        "coduo/phpspec-data-provider-extension": "~1.0",
-        "fabpot/php-cs-fixer":                   "~1.11"
+        "phpspec/phpspec":                            "dev-master#48e85b7f97f6a14c71e7a3eabfa819fee9e87139",
+        "behat/behat":                                "~3.0",
+        "fabpot/php-cs-fixer":                        "~1.11",
+        "afurculita/phpspec-data-provider-extension": "1.0.4"
     },
     "autoload":          {
         "psr-4": {
@@ -34,7 +34,7 @@
         "ext-bcmath": "Install the BCMath (Binary Calculator) extension in order to speed up arbitrary precision integer arithmetic operations.",
         "ext-gmp":    "Install the GMP (GNU Multiple Precision) extension in order to speed up arbitrary precision integer arithmetic operations. GMP seems to be faster than BCMath: http://phpseclib.sourceforge.net/math/intro.html"
     },
-    "config": {
+    "config":            {
         "bin-dir": "bin"
     }
 }
