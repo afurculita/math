@@ -18,6 +18,13 @@ use Arki\Math\Calculator\Calculator;
  *
  * All methods accepting a number as a parameter accept either a BigInteger instance,
  * an integer, or a string representing an arbitrary size integer.
+ *
+ * Semantics of arithmetic operations exactly mimic those of PHP's integer
+ * arithmetic operators, as defined in The PHP Language Specification.
+ * For example, division by zero throws an ArithmeticException, and division of a
+ * negative by a positive yields a negative (or zero) remainder. All of the details
+ * in the Spec concerning overflow are ignored, as BigIntegers are made as large as
+ * necessary to accommodate the results of an operation.
  */
 final class BigInteger extends Number implements \Serializable
 {
@@ -44,7 +51,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Creates a BigInteger of the given value.
      *
-     * @param Number|number|string $value
+     * @param Number|int|float|string $value
      *
      * @return BigInteger
      *
@@ -171,7 +178,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the sum of this number and the given one.
      *
-     * @param Number|number|string $that The number to add. Must be convertible to a BigInteger.
+     * @param Number|int|float|string $that The number to add. Must be convertible to a BigInteger.
      *
      * @return BigInteger The result.
      *
@@ -191,7 +198,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the difference of this number and the given one.
      *
-     * @param Number|number|string $that The number to subtract. Must be convertible to a BigInteger.
+     * @param Number|int|float|string $that The number to subtract. Must be convertible to a BigInteger.
      *
      * @return BigInteger The result.
      *
@@ -211,7 +218,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the product of this number and the given one.
      *
-     * @param Number|number|string $that The multiplier. Must be convertible to a BigInteger.
+     * @param Number|int|float|string $that The multiplier. Must be convertible to a BigInteger.
      *
      * @return BigInteger The result.
      *
@@ -231,8 +238,8 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the result of the division of this number by the given one.
      *
-     * @param Number|number|string $that         The divisor. Must be convertible to a BigInteger.
-     * @param int                     $roundingMode An optional rounding mode.
+     * @param Number|int|float|string $that         The divisor. Must be convertible to a BigInteger.
+     * @param int                  $roundingMode An optional rounding mode.
      *
      * @return BigInteger The result.
      *
@@ -288,7 +295,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the quotient of the division of this number by the given one.
      *
-     * @param Number|number|string $that The divisor. Must be convertible to a BigInteger.
+     * @param Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
      *
      * @return BigInteger
      *
@@ -311,7 +318,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the remainder of the division of this number by the given one.
      *
-     * @param Number|number|string $that The divisor. Must be convertible to a BigInteger.
+     * @param Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
      *
      * @return BigInteger
      *
@@ -331,7 +338,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the quotient and remainder of the division of this number by the given one.
      *
-     * @param Number|number|string $that The divisor. Must be convertible to a BigInteger.
+     * @param Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
      *
      * @return BigInteger[] An array containing the quotient and the remainder.
      *
@@ -352,11 +359,11 @@ final class BigInteger extends Number implements \Serializable
     }
 
     /**
-     * Returns the greatest common divisor of this number and the given one.
+     * Returns a BigInteger whose value is the greatest common divisor of this number and the given one.
      *
      * The GCD is always positive, unless both operands are zero, in which case it is zero.
      *
-     * @param Number|number|string $that The operand. Must be convertible to an integer number.
+     * @param Number|int|float|string $that The operand. Must be convertible to an integer number.
      *
      * @return BigInteger
      */
@@ -547,6 +554,7 @@ final class BigInteger extends Number implements \Serializable
         if ($this->value !== null) {
             throw new \LogicException('unserialize() is an internal function, it must not be called directly.');
         }
+
         $this->value = $value;
     }
 }

@@ -52,7 +52,7 @@ final class BigDecimal extends Number implements \Serializable
     /**
      * Creates a BigDecimal of the given value.
      *
-     * @param Number|number|string $value
+     * @param Number|int|float|string $value
      *
      * @return BigDecimal
      *
@@ -68,7 +68,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * Example: `(12345, 3)` will result in the BigDecimal `12.345`.
      *
-     * @param Number|number|string $value The unscaled value. Must be convertible to a BigInteger.
+     * @param Number|int|float|string $value The unscaled value. Must be convertible to a BigInteger.
      * @param int                     $scale The scale of the number, positive or zero.
      *
      * @return BigDecimal
@@ -135,7 +135,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The result has a scale of `max($this->scale, $that->scale)`.
      *
-     * @param Number|number|string $that The number to add. Must be convertible to a BigDecimal.
+     * @param Number|int|float|string $that The number to add. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The result.
      *
@@ -159,7 +159,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The result has a scale of `max($this->scale, $that->scale)`.
      *
-     * @param Number|number|string $that The number to subtract. Must be convertible to a BigDecimal.
+     * @param Number|int|float|string $that The number to subtract. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The result.
      *
@@ -183,7 +183,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The result has a scale of `$this->scale + $that->scale`.
      *
-     * @param Number|number|string $that The multiplier. Must be convertible to a BigDecimal.
+     * @param Number|int|float|string $that The multiplier. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The result.
      *
@@ -204,7 +204,7 @@ final class BigDecimal extends Number implements \Serializable
     /**
      * Returns the result of the division of this number by the given one, at the given scale.
      *
-     * @param Number|number|string $that         The divisor.
+     * @param Number|int|float|string $that         The divisor.
      * @param int|null                $scale        The desired scale, or null to use the scale of this number.
      * @param int                     $roundingMode An optional rounding mode.
      *
@@ -241,7 +241,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The scale of the result is automatically calculated to fit all the fraction digits.
      *
-     * @param Number|number|string $that The divisor. Must be convertible to a BigDecimal.
+     * @param Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The result.
      *
@@ -311,7 +311,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The quotient has a scale of `0`.
      *
-     * @param Number|number|string $that The divisor. Must be convertible to a BigDecimal.
+     * @param Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The quotient.
      *
@@ -335,7 +335,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The remainder has a scale of `max($this->scale, $that->scale)`.
      *
-     * @param Number|number|string $that The divisor. Must be convertible to a BigDecimal.
+     * @param Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The remainder.
      *
@@ -360,7 +360,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The quotient has a scale of `0`, and the remainder has a scale of `max($this->scale, $that->scale)`.
      *
-     * @param Number|number|string $that The divisor. Must be convertible to a BigDecimal.
+     * @param Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal[] An array containing the quotient and the remainder.
      *
@@ -671,6 +671,7 @@ final class BigDecimal extends Number implements \Serializable
         if ($this->value !== null || $this->scale !== null) {
             throw new \LogicException('unserialize() is an internal function, it must not be called directly.');
         }
+        
         list($value, $scale) = explode(':', $value);
         $this->value = $value;
         $this->scale = (int)$scale;

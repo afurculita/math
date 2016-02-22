@@ -48,7 +48,7 @@ abstract class Number
      * - strings containing a `.` character or using an exponentional notation are returned as BigDecimal
      * - strings containing only digits with an optional leading `+` or `-` sign are returned as BigInteger
      *
-     * @param Number|number|string $value
+     * @param Number|int|float|string $value
      *
      * @return Number
      *
@@ -117,7 +117,7 @@ abstract class Number
     /**
      * Returns the minimum of the given values.
      *
-     * @param Number|number|string ...$values    The numbers to compare. All the numbers need to be convertible
+     * @param Number|int|float|string ...$values The numbers to compare. All the numbers need to be convertible
      *                                           to an instance of the class this method is called on.
      *
      * @return static The minimum value.
@@ -144,7 +144,7 @@ abstract class Number
     /**
      * Returns the maximum of the given values.
      *
-     * @param Number|number|string ...$values    The numbers to compare. All the numbers need to be convertible
+     * @param Number|int|float|string ...$values    The numbers to compare. All the numbers need to be convertible
      *                                           to an instance of the class this method is called on.
      *
      * @return static The maximum value.
@@ -195,7 +195,7 @@ abstract class Number
     /**
      * Checks if this number is equal to the given one.
      *
-     * @param Number|number|string $that
+     * @param Number|int|float|string $that
      *
      * @return bool
      */
@@ -207,7 +207,7 @@ abstract class Number
     /**
      * Checks if this number is strictly lower than the given one.
      *
-     * @param Number|number|string $that
+     * @param Number|int|float|string $that
      *
      * @return bool
      */
@@ -219,7 +219,7 @@ abstract class Number
     /**
      * Checks if this number is lower than or equal to the given one.
      *
-     * @param Number|number|string $that
+     * @param Number|int|float|string $that
      *
      * @return bool
      */
@@ -231,7 +231,7 @@ abstract class Number
     /**
      * Checks if this number is strictly greater than the given one.
      *
-     * @param Number|number|string $that
+     * @param Number|int|float|string $that
      *
      * @return bool
      */
@@ -243,7 +243,7 @@ abstract class Number
     /**
      * Checks if this number is greater than or equal to the given one.
      *
-     * @param Number|number|string $that
+     * @param Number|int|float|string $that
      *
      * @return bool
      */
@@ -312,7 +312,7 @@ abstract class Number
     /**
      * Compares this number to the given one.
      *
-     * @param Number|number|string $that
+     * @param Number|int|float|string $that
      *
      * @return int [-1,0,1] If `$this` is lower than, equal to, or greater than `$that`.
      *
