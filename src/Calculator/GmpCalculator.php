@@ -102,6 +102,6 @@ final class GmpCalculator extends Calculator
             $result = 1;
         }
 
-        return gmp_strval($result);
+        return $result;
     }
 }
