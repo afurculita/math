@@ -52,7 +52,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Creates a BigInteger of the given value.
      *
-     * @param Number|int|float|string $value
+     * @param \Arki\Math\Number|int|float|string $value
      *
      * @return BigInteger
      *
@@ -75,7 +75,7 @@ final class BigInteger extends Number implements \Serializable
      *
      * @return BigInteger The integer represented by the string argument in the specified base.
      *
-     * @throws NumberFormatException If the string does not contain a parsable int.
+     * @throws \Arki\Math\NumberFormatException If the string does not contain a parsable int.
      * @throws \InvalidArgumentException If the base is out of range.
      */
     public static function parse($number, $base = 10)
@@ -194,7 +194,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the sum of this number and the given one.
      *
-     * @param Number|int|float|string $that The number to add. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $that The number to add. Must be convertible to a BigInteger.
      *
      * @return BigInteger The result.
      *
@@ -214,7 +214,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the difference of this number and the given one.
      *
-     * @param Number|int|float|string $that The number to subtract. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $that The number to subtract. Must be convertible to a BigInteger.
      *
      * @return BigInteger The result.
      *
@@ -234,7 +234,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the product of this number and the given one.
      *
-     * @param Number|int|float|string $that The multiplier. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $that The multiplier. Must be convertible to a BigInteger.
      *
      * @return BigInteger The result.
      *
@@ -254,7 +254,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the result of the division of this number by the given one.
      *
-     * @param Number|int|float|string $that         The divisor. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $that         The divisor. Must be convertible to a BigInteger.
      * @param int                     $roundingMode An optional rounding mode.
      *
      * @return BigInteger The result.
@@ -311,7 +311,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the quotient of the division of this number by the given one.
      *
-     * @param Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
      *
      * @return BigInteger
      *
@@ -334,7 +334,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the remainder of the division of this number by the given one.
      *
-     * @param Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
      *
      * @return BigInteger
      *
@@ -354,7 +354,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns the quotient and remainder of the division of this number by the given one.
      *
-     * @param Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $that The divisor. Must be convertible to a BigInteger.
      *
      * @return BigInteger[] An array containing the quotient and the remainder.
      *
@@ -379,7 +379,7 @@ final class BigInteger extends Number implements \Serializable
      *
      * The GCD is always positive, unless both operands are zero, in which case it is zero.
      *
-     * @param Number|int|float|string $that The operand. Must be convertible to an integer number.
+     * @param \Arki\Math\Number|int|float|string $that The operand. Must be convertible to an integer number.
      *
      * @return BigInteger
      */

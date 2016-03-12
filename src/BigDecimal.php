@@ -52,7 +52,7 @@ final class BigDecimal extends Number implements \Serializable
     /**
      * Creates a BigDecimal of the given value.
      *
-     * @param Number|int|float|string $value
+     * @param \Arki\Math\Number|int|float|string $value
      *
      * @return BigDecimal
      *
@@ -68,8 +68,8 @@ final class BigDecimal extends Number implements \Serializable
      *
      * Example: `(12345, 3)` will result in the BigDecimal `12.345`.
      *
-     * @param Number|int|float|string $value The unscaled value. Must be convertible to a BigInteger.
-     * @param int                     $scale The scale of the number, positive or zero.
+     * @param \Arki\Math\Number|int|float|string $value The unscaled value. Must be convertible to a BigInteger.
+     * @param int                                $scale The scale of the number, positive or zero.
      *
      * @return BigDecimal
      *
@@ -135,7 +135,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The result has a scale of `max($this->scale, $that->scale)`.
      *
-     * @param Number|int|float|string $that The number to add. Must be convertible to a BigDecimal.
+     * @param \Arki\Math\Number|int|float|string $that The number to add. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The result.
      *
@@ -159,7 +159,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The result has a scale of `max($this->scale, $that->scale)`.
      *
-     * @param Number|int|float|string $that The number to subtract. Must be convertible to a BigDecimal.
+     * @param \Arki\Math\Number|int|float|string $that The number to subtract. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The result.
      *
@@ -183,7 +183,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The result has a scale of `$this->scale + $that->scale`.
      *
-     * @param Number|int|float|string $that The multiplier. Must be convertible to a BigDecimal.
+     * @param \Arki\Math\Number|int|float|string $that The multiplier. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The result.
      *
@@ -204,9 +204,10 @@ final class BigDecimal extends Number implements \Serializable
     /**
      * Returns the result of the division of this number by the given one, at the given scale.
      *
-     * @param Number|int|float|string $that         The divisor.
-     * @param int|null                $scale        The desired scale, or null to use the scale of this number.
-     * @param int                     $roundingMode An optional rounding mode.
+     * @param \Arki\Math\Number|int|float|string $that         The divisor.
+     * @param int|null                           $scale        The desired scale, or null to use the scale of this
+     *                                                         number.
+     * @param int                                $roundingMode An optional rounding mode.
      *
      * @return BigDecimal
      * @throws \ArithmeticError If the number is invalid or rounding was necessary.
@@ -241,7 +242,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The scale of the result is automatically calculated to fit all the fraction digits.
      *
-     * @param Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
+     * @param \Arki\Math\Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The result.
      *
@@ -311,7 +312,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The quotient has a scale of `0`.
      *
-     * @param Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
+     * @param \Arki\Math\Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The quotient.
      *
@@ -335,7 +336,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The remainder has a scale of `max($this->scale, $that->scale)`.
      *
-     * @param Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
+     * @param \Arki\Math\Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal The remainder.
      *
@@ -360,7 +361,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * The quotient has a scale of `0`, and the remainder has a scale of `max($this->scale, $that->scale)`.
      *
-     * @param Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
+     * @param \Arki\Math\Number|int|float|string $that The divisor. Must be convertible to a BigDecimal.
      *
      * @return BigDecimal[] An array containing the quotient and the remainder.
      *
@@ -382,21 +383,6 @@ final class BigDecimal extends Number implements \Serializable
         $remainder = new self($remainder, $scale);
 
         return [$quotient, $remainder];
-    }
-
-    /**
-     * Returns a BigDecimal with the current value and the specified scale.
-     *
-     * @deprecated Use `toScale()`.
-     *
-     * @param int $scale
-     * @param int $roundingMode
-     *
-     * @return BigDecimal
-     */
-    public function withScale($scale, $roundingMode = RoundingMode::UNNECESSARY)
-    {
-        return $this->toScale($scale, $roundingMode);
     }
 
     /**
@@ -519,7 +505,11 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function signum()
     {
-        return ($this->value === '0') ? 0 : (($this->value[0] === '-') ? -1 : 1);
+        if ($this->value === '0') {
+            return 0;
+        }
+
+        return ($this->value[0] === '-') ? -1 : 1;
     }
 
     /**
@@ -673,7 +663,7 @@ final class BigDecimal extends Number implements \Serializable
         if ($this->value !== null || $this->scale !== null) {
             throw new \LogicException('unserialize() is an internal function, it must not be called directly.');
         }
-        
+
         list($value, $scale) = explode(':', $value);
         $this->value = $value;
         $this->scale = (int)$scale;

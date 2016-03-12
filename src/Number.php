@@ -48,9 +48,9 @@ abstract class Number
      * - strings containing a `.` character or using an exponentional notation are returned as BigDecimal
      * - strings containing only digits with an optional leading `+` or `-` sign are returned as BigInteger
      *
-     * @param Number|int|float|string $value
+     * @param \Arki\Math\Number|int|float|string $value
      *
-     * @return Number
+     * @return \Arki\Math\Number
      *
      * @throws NumberFormatException   If the format of the number is not valid.
      * @throws \DivisionByZeroError If the value represents a rational number with a denominator of zero.
@@ -117,8 +117,9 @@ abstract class Number
     /**
      * Returns the minimum of the given values.
      *
-     * @param Number|int|float|string ...$values The numbers to compare. All the numbers need to be convertible
-     *                                           to an instance of the class this method is called on.
+     * @param \Arki\Math\Number|int|float|string ...$values The numbers to compare. All the numbers need to be
+     *                                                      convertible to an instance of the class this method is
+     *                                                      called on.
      *
      * @return static The minimum value.
      *
@@ -144,8 +145,9 @@ abstract class Number
     /**
      * Returns the maximum of the given values.
      *
-     * @param Number|int|float|string ...$values The numbers to compare. All the numbers need to be convertible
-     *                                           to an instance of the class this method is called on.
+     * @param \Arki\Math\Number|int|float|string ...$values The numbers to compare. All the numbers need to be
+     *                                                      convertible to an instance of the class this method is
+     *                                                      called on.
      *
      * @return static The maximum value.
      *
@@ -195,7 +197,7 @@ abstract class Number
     /**
      * Checks if this number is equal to the given one.
      *
-     * @param Number|int|float|string $that
+     * @param \Arki\Math\Number|int|float|string $that
      *
      * @return bool
      */
@@ -207,7 +209,7 @@ abstract class Number
     /**
      * Checks if this number is strictly lower than the given one.
      *
-     * @param Number|int|float|string $that
+     * @param \Arki\Math\Number|int|float|string $that
      *
      * @return bool
      */
@@ -219,7 +221,7 @@ abstract class Number
     /**
      * Checks if this number is lower than or equal to the given one.
      *
-     * @param Number|int|float|string $that
+     * @param \Arki\Math\Number|int|float|string $that
      *
      * @return bool
      */
@@ -231,7 +233,7 @@ abstract class Number
     /**
      * Checks if this number is strictly greater than the given one.
      *
-     * @param Number|int|float|string $that
+     * @param \Arki\Math\Number|int|float|string $that
      *
      * @return bool
      */
@@ -243,7 +245,7 @@ abstract class Number
     /**
      * Checks if this number is greater than or equal to the given one.
      *
-     * @param Number|int|float|string $that
+     * @param \Arki\Math\Number|int|float|string $that
      *
      * @return bool
      */
@@ -312,7 +314,7 @@ abstract class Number
     /**
      * Compares this number to the given one.
      *
-     * @param Number|int|float|string $that
+     * @param \Arki\Math\Number|int|float|string $that
      *
      * @return int [-1,0,1] If `$this` is lower than, equal to, or greater than `$that`.
      *
@@ -323,10 +325,11 @@ abstract class Number
     /**
      * Compares two numerical values.
      *
-     * @param Number|int|float|string $x
-     * @param Number|int|float|string $y
+     * @param \Arki\Math\Number|int|float|string $x
+     * @param \Arki\Math\Number|int|float|string $y
      *
      * @return int The value 0 if x == y; a value less than 0 if x < y; and a value greater than 0 if x > y
+     *
      * @throws \DivisionByZeroError
      */
     public static function compare($x, $y)

@@ -60,7 +60,7 @@ final class BigRational extends Number implements \Serializable
     /**
      * Creates a BigRational of the given value.
      *
-     * @param Number|int|float|string $value
+     * @param \Arki\Math\Number|int|float|string $value
      *
      * @return BigRational
      *
@@ -77,8 +77,8 @@ final class BigRational extends Number implements \Serializable
      * If the denominator is negative, the signs of both the numerator and the denominator
      * will be inverted to ensure that the denominator is always positive.
      *
-     * @param Number|int|float|string $numerator   The numerator. Must be convertible to a BigInteger.
-     * @param Number|int|float|string $denominator The denominator. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $numerator   The numerator. Must be convertible to a BigInteger.
+     * @param \Arki\Math\Number|int|float|string $denominator The denominator. Must be convertible to a BigInteger.
      *
      * @return BigRational
      *
@@ -188,7 +188,7 @@ final class BigRational extends Number implements \Serializable
     /**
      * Returns the sum of this number and the given one.
      *
-     * @param Number|int|float|string $that The number to add.
+     * @param \Arki\Math\Number|int|float|string $that The number to add.
      *
      * @return BigRational The result.
      *
@@ -207,7 +207,7 @@ final class BigRational extends Number implements \Serializable
     /**
      * Returns the difference of this number and the given one.
      *
-     * @param Number|int|float|string $that The number to subtract.
+     * @param \Arki\Math\Number|int|float|string $that The number to subtract.
      *
      * @return BigRational The result.
      *
@@ -226,7 +226,7 @@ final class BigRational extends Number implements \Serializable
     /**
      * Returns the product of this number and the given one.
      *
-     * @param Number|int|float|string $that The multiplier.
+     * @param \Arki\Math\Number|int|float|string $that The multiplier.
      *
      * @return BigRational The result.
      *
@@ -244,7 +244,7 @@ final class BigRational extends Number implements \Serializable
     /**
      * Returns the result of the division of this number by the given one.
      *
-     * @param Number|int|float|string $that The divisor.
+     * @param \Arki\Math\Number|int|float|string $that The divisor.
      *
      * @return BigRational The result.
      *
