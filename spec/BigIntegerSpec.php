@@ -28,18 +28,21 @@ class BigIntegerSpec extends ObjectBehavior
 
     function it_is_serializable()
     {
-        $value = '-1234567890987654321012345678909876543210123456789';
         // let
-        $this->beConstructedThroughOf($value);
+        $value = '-1234567890987654321012345678909876543210123456789';
         // and
-        $number = unserialize(serialize($this));
+        $integer = BigInteger::of($value);
+        // and
+        $integer = unserialize(serialize($integer));
+        // and
+        $this->beConstructedThroughOf($integer);
 
         // then
         $this->shouldHaveType('Serializable');
         // and
-        $number->shouldBeAnInstanceOf(BigInteger::class);
+        $this->shouldBeAnInstanceOf(BigInteger::class);
         // and
-        $number->__toString()->shouldReturn($value);
+        $this->__toString()->shouldReturn($value);
     }
 
     function it_throws_exception_on_a_direct_call_to_unserialize()

@@ -38,18 +38,20 @@ class BigDecimalSpec extends ObjectBehavior
         $value = '-1234567890987654321012345678909876543210123456789';
         $scale = 37;
         // let
-        $this->beConstructedThroughOfUnscaledValue($value, $scale);
+        $decimal = BigDecimal::ofUnscaledValue($value, $scale);
         // and
-        $number = unserialize(serialize($this));
+        $decimal = unserialize(serialize($decimal));
+        // and
+        $this->beConstructedThroughOf($decimal);
 
         // then
         $this->shouldHaveType('Serializable');
         // and
-        $number->shouldBeAnInstanceOf(BigDecimal::class);
+        $this->shouldBeAnInstanceOf(BigDecimal::class);
         // and
-        $number->unscaledValue()->shouldReturn($value);
+        $this->unscaledValue()->shouldReturn($value);
         // and
-        $number->scale()->shouldReturn($scale);
+        $this->scale()->shouldReturn($scale);
     }
 
     function it_can_not_be_instantiated()
