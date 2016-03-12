@@ -843,7 +843,7 @@ class BigDecimalSpec extends ObjectBehavior
         foreach ([$zero, $one, $two] as $scale => $expected) {
             $negated = $this->negate();
 
-            if ($expected === null) {
+            if ($expected === null || is_object($expected)) {
                 // then
                 $this->shouldThrow('\ArithmeticError')->during(
                     'dividedBy',
@@ -1543,7 +1543,7 @@ class BigDecimalSpec extends ObjectBehavior
         // let
         $this->beConstructedThroughOf($number);
         // and
-        $decimal = $this->withScale($withScale, $roundingMode);
+        $decimal = $this->toScale($withScale, $roundingMode);
 
         // then
         $decimal->shouldBeAnInstanceOf(BigDecimal::class);

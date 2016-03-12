@@ -653,7 +653,7 @@ class BigIntegerSpec extends ObjectBehavior
             $divisor .= '0';
             $negated = $this->negate();
 
-            if ($expected === null) {
+            if ($expected === null || is_object($expected)) {
                 $this->shouldThrow('\ArithmeticError')->during('dividedBy', [$divisor, $roundingMode]);
                 $negated->shouldThrow('\ArithmeticError')->during('dividedBy', ['-'.$divisor, $roundingMode]);
 

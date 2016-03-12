@@ -806,7 +806,7 @@ class BigRationalSpec extends ObjectBehavior
         $this->beConstructedThroughOf($number);
 
         // then
-        if ($expected === null) {
+        if ($expected === null || is_object($expected)) {
             $this->shouldThrow('\ArithmeticError')->duringToBigDecimal();
 
             return;
