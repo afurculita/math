@@ -12,6 +12,7 @@
 namespace Arki\Math;
 
 use Arki\Math\Calculator\Calculator;
+use Arki\Math\Exception\NumberFormatException;
 
 /**
  * Immutable arbitrary-precision integers.
@@ -65,26 +66,31 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Parses a string containing an integer in an arbitrary base.
      *
-     * The string can optionally be prefixed with the `+` or `-` sign.
+     * The characters in the string must all be digits of the specified base, except that
+     * the first character may be an ASCII minus sign '-' ('\u002D') to indicate a negative
+     * value or an ASCII plus sign '+' ('\u002B') to indicate a positive value.
      *
-     * @param string $number The number to parse.
+     * @param string $number The string containing the integer representation to be parsed.
      * @param int    $base   The base of the number, between 2 and 36.
      *
-     * @return BigInteger
+     * @return BigInteger The integer represented by the string argument in the specified base.
      *
-     * @throws \InvalidArgumentException If the number is invalid or the base is out of range.
+     * @throws NumberFormatException If the string does not contain a parsable int.
+     * @throws \InvalidArgumentException If the base is out of range.
      */
     public static function parse($number, $base = 10)
     {
         $number = (string)$number;
         $base = (int)$base;
-        $dictionary = '0123456789abcdefghijklmnopqrstuvwxyz';
+
         if ($number === '') {
-            throw new \InvalidArgumentException('The value cannot be empty.');
+            throw new NumberFormatException('The value cannot be empty.');
         }
+
         if ($base < 2 || $base > 36) {
             throw new \InvalidArgumentException(sprintf('Base %d is not in range 2 to 36.', $base));
         }
+
         if ($number[0] === '-') {
             $sign = '-';
             $number = substr($number, 1);
@@ -94,36 +100,46 @@ final class BigInteger extends Number implements \Serializable
         } else {
             $sign = '';
         }
+
         if ($number === false /* PHP 5 */ || $number === '' /* PHP 7 */) {
-            throw new \InvalidArgumentException('The value cannot be empty.');
+            throw new NumberFormatException('The value cannot be empty.');
         }
+
         $number = ltrim($number, '0');
         if ($number === '') {
             // The result will be the same in any base, avoid further calculation.
             return self::zero();
         }
+
         if ($number === '1') {
             // The result will be the same in any base, avoid further calculation.
             return new self($sign.'1');
         }
+
         if ($base === 10 && ctype_digit($number)) {
             // The number is usable as is, avoid further calculation.
             return new self($sign.$number);
         }
+
         $calc = Calculator::get();
         $number = strtolower($number);
         $result = '0';
         $power = '1';
+        $dictionary = '0123456789abcdefghijklmnopqrstuvwxyz';
+
         for ($i = strlen($number) - 1; $i >= 0; --$i) {
             $char = $number[$i];
             $index = strpos($dictionary, $char);
+
             if ($index === false || $index >= $base) {
                 throw new \InvalidArgumentException(sprintf('"%s" is not a valid character in base %d.', $char, $base));
             }
+
             if ($index !== 0) {
                 $add = ($index === 1) ? $power : $calc->mul($power, (string)$index);
                 $result = $calc->add($result, $add);
             }
+
             $power = $calc->mul($power, (string)$base);
         }
 
@@ -239,7 +255,7 @@ final class BigInteger extends Number implements \Serializable
      * Returns the result of the division of this number by the given one.
      *
      * @param Number|int|float|string $that         The divisor. Must be convertible to a BigInteger.
-     * @param int                  $roundingMode An optional rounding mode.
+     * @param int                     $roundingMode An optional rounding mode.
      *
      * @return BigInteger The result.
      *

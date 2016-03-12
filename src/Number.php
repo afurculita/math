@@ -14,7 +14,7 @@ namespace Arki\Math;
 use Arki\Math\Exception\NumberFormatException;
 
 /**
- * Common interface for arbitrary-precision rational numbers.
+ * Common interface for classes representing numeric values
  */
 abstract class Number
 {
@@ -144,7 +144,7 @@ abstract class Number
     /**
      * Returns the maximum of the given values.
      *
-     * @param Number|int|float|string ...$values    The numbers to compare. All the numbers need to be convertible
+     * @param Number|int|float|string ...$values The numbers to compare. All the numbers need to be convertible
      *                                           to an instance of the class this method is called on.
      *
      * @return static The maximum value.
@@ -321,6 +321,20 @@ abstract class Number
     abstract public function compareTo($that);
 
     /**
+     * Compares two numerical values.
+     *
+     * @param Number|int|float|string $x
+     * @param Number|int|float|string $y
+     *
+     * @return int The value 0 if x == y; a value less than 0 if x < y; and a value greater than 0 if x > y
+     * @throws \DivisionByZeroError
+     */
+    public static function compare($x, $y)
+    {
+        return self::of($x)->compareTo(self::of($y));
+    }
+
+    /**
      * Converts this number to a BigInteger.
      *
      * @return BigInteger The converted number.
@@ -361,7 +375,7 @@ abstract class Number
      * If this number cannot be converted to a native integer without losing precision, an exception is thrown.
      * Note that the acceptable range for an integer depends on the platform and differs for 32-bit and 64-bit.
      *
-     * @return int The converted value.
+     * @return int The numeric value represented by this object after conversion to type int.
      *
      * @throws \ArithmeticError If this number cannot be exactly converted to a native integer.
      */
@@ -373,7 +387,7 @@ abstract class Number
      * Note that this method can discard information as the precision of a floating-point value
      * is inherently limited.
      *
-     * @return float The converted value.
+     * @return float The numeric value represented by this object after conversion to type float.
      */
     abstract public function toFloat();
 

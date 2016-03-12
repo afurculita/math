@@ -1824,7 +1824,7 @@ class BigDecimalSpec extends ObjectBehavior
     /**
      * @dataProvider providerCompareTo
      */
-    function it_compares_two_numers($a, $b, $c)
+    function it_compares_this_number_to_the_given_one($a, $b, $c)
     {
         // let
         $this->beConstructedThroughOf($a);

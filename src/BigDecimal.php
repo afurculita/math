@@ -500,9 +500,11 @@ final class BigDecimal extends Number implements \Serializable
     public function compareTo($that)
     {
         $that = Number::of($that);
+
         if ($that instanceof BigInteger) {
             $that = $that->toBigDecimal();
         }
+
         if ($that instanceof self) {
             $this->scaleValues($this, $that, $a, $b);
 
