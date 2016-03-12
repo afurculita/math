@@ -5,6 +5,11 @@ php:
   - 7.0
   - hhvm
 
+env:
+  - CALCULATOR=GMP
+  - CALCULATOR=BCMath
+  - CALCULATOR=Native
+
 before_script: composer install --dev --prefer-source
 
 script: bin/phpspec run -f pretty --verbose
