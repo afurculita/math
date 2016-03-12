@@ -15,10 +15,10 @@
         "symfony/polyfill-php70": "~1.1"
     },
     "require-dev":       {
-        "phpspec/phpspec":                            "dev-master#48e85b7f97f6a14c71e7a3eabfa819fee9e87139",
+        "afurculita/phpspec":                         "dev-master",
         "behat/behat":                                "~3.0",
         "fabpot/php-cs-fixer":                        "~1.11",
-        "afurculita/phpspec-data-provider-extension": "1.0.4"
+        "afurculita/phpspec-data-provider-extension": "dev-master"
     },
     "autoload":          {
         "psr-4": {
