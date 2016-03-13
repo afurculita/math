@@ -1,4 +1,4 @@
-# Arkitekto / Math [![Build status][travis-image]][travis-url] [![Version][version-image]][version-url] [![PHP Version][php-version-image]][php-version-url]
+# Arkitekto / Math [![Build Status](https://travis-ci.org/arkitekto/math.svg?branch=master)](https://travis-ci.org/arkitekto/math)
 
 > `PHP` library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers. 
 > Very useful when you need easier handling of large numbers inside financial application without precision loss.
