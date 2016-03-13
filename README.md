@@ -1,25 +1,19 @@
-# arkitekto/math
+# Arkitekto / Math [![Build status][travis-image]][travis-url] [![Version][version-image]][version-url] [![PHP Version][php-version-image]][php-version-url]
 
-A `PHP` library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers. 
-Very useful when you need easier handling of large numbers inside financial application without precision loss.
-
-[![Build Status](https://secure.travis-ci.org/arkitekto/math.svg?branch=master)](http://travis-ci.org/arkitekto/math)
+> `PHP` library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers. 
+> Very useful when you need easier handling of large numbers inside financial application without precision loss.
 
 ### Installation
 
-You can install this library via [Composer](https://getcomposer.org/). Just define the following requirement in your `composer.json` file:
+You can install this library via [Composer](https://getcomposer.org/). Run:
 
-```json
-{
-    "require": {
-        "arkitekto/math": "0.1.*"
-    }
-}
+```bash
+$ composer require arkitekto/math
 ```
 
 ### Requirements
 
-This library requires PHP 5.6, PHP 7 or [HHVM](http://hhvm.com/).
+This library requires `PHP 5.6`, `PHP 7` or `HHVM`.
 
 Although the library can work seamlessly on any PHP installation, it is highly recommended that you install the
 [GMP](http://php.net/manual/en/book.gmp.php) or [BCMath](http://php.net/manual/en/book.bc.php) extension
@@ -58,7 +52,7 @@ The constructors of the classes are not public, you must use a factory method to
 
 All classes provide an `of()` factory method that accepts any of the following types:
 
-- `Number` instances
+- `Arki\Math\Number` instances
 - `int` numbers
 - `float` numbers
 - `string` representations of integer, decimal and rational numbers
