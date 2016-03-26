@@ -3,7 +3,7 @@
 A `PHP` library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers. 
 Very useful when you need easier handling of large numbers inside financial application without precision loss.
 
-[![Build Status](https://secure.travis-ci.org/arkitekto/math.svg?branch=master)](http://travis-ci.org/arkitekto/math)
+[![Build Status](https://secure.travis-ci.org/arkitekto/math.svg?branch=2.0)](http://travis-ci.org/arkitekto/math)
 
 ### Installation
 
@@ -12,7 +12,7 @@ You can install this library via [Composer](https://getcomposer.org/). Just defi
 ```json
 {
     "require": {
-        "arkitekto/math": "0.1.*"
+        "arkitekto/math": "~2.0"
     }
 }
 ```
