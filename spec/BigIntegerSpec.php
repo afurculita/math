@@ -408,7 +408,7 @@ class BigIntegerSpec extends ObjectBehavior
     function it_returns_the_minimum_of_the_given_values($values, $min)
     {
         // let
-        $this->beConstructedThroughMin(... $values);
+        call_user_func_array([$this, 'beConstructedThroughMin'], $values);
 
         // then
         $this->shouldBeAnInstanceOf(BigInteger::class);
@@ -451,7 +451,7 @@ class BigIntegerSpec extends ObjectBehavior
     function it_returns_the_maximum_of_the_given_values($values, $max)
     {
         // let
-        $this->beConstructedThroughMax(... $values);
+        call_user_func_array([$this, 'beConstructedThroughMax'], $values);
 
         // then
         $this->shouldBeAnInstanceOf(BigInteger::class);

@@ -21,7 +21,7 @@ namespace Arki\Math\Calculator;
 final class BcMathCalculator extends Calculator
 {
     /**
-     * Sets BCMath scale factor to zero
+     * Sets BCMath scale factor to zero.
      */
     public function __construct()
     {

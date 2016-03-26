@@ -50,6 +50,19 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
+     * @param string $value The unscaled value, validated.
+     * @param int    $scale The scale, validated as a positive or zero integer.
+     *
+     * @internal
+     *
+     * @return static
+     */
+    public static function create($value, $scale = 0)
+    {
+        return new static($value, $scale);
+    }
+
+    /**
      * Creates a BigDecimal of the given value.
      *
      * @param \Arki\Math\Number|int|float|string $value
@@ -77,12 +90,12 @@ final class BigDecimal extends Number implements \Serializable
      */
     public static function ofUnscaledValue($value, $scale = 0)
     {
-        $scale = (int)$scale;
+        $scale = (int) $scale;
         if ($scale < 0) {
             throw new \InvalidArgumentException('The scale cannot be negative.');
         }
 
-        return new self((string)BigInteger::of($value), $scale);
+        return new self((string) BigInteger::of($value), $scale);
     }
 
     /**
@@ -210,7 +223,8 @@ final class BigDecimal extends Number implements \Serializable
      * @param int                                $roundingMode An optional rounding mode.
      *
      * @return BigDecimal
-     * @throws \ArithmeticError If the number is invalid or rounding was necessary.
+     *
+     * @throws \ArithmeticError     If the number is invalid or rounding was necessary.
      * @throws \DivisionByZeroError If the number is zero
      */
     public function dividedBy($that, $scale = null, $roundingMode = RoundingMode::UNNECESSARY)
@@ -222,7 +236,7 @@ final class BigDecimal extends Number implements \Serializable
         if ($scale === null) {
             $scale = $this->scale;
         } else {
-            $scale = (int)$scale;
+            $scale = (int) $scale;
             if ($scale < 0) {
                 throw new \InvalidArgumentException('Scale cannot be negative.');
             }
@@ -262,11 +276,11 @@ final class BigDecimal extends Number implements \Serializable
         $calculator = Calculator::get();
         foreach ([5, 2] as $prime) {
             for (; ;) {
-                $lastDigit = (int)substr($d, -1);
+                $lastDigit = (int) substr($d, -1);
                 if ($lastDigit % $prime !== 0) {
                     break;
                 }
-                $d = $calculator->divQ($d, (string)$prime);
+                $d = $calculator->divQ($d, (string) $prime);
                 ++$scale;
             }
         }
@@ -287,7 +301,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function power($exponent)
     {
-        $exponent = (int)$exponent;
+        $exponent = (int) $exponent;
         if ($exponent === 0) {
             return self::one();
         }
@@ -394,7 +408,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function withPointMovedLeft($n)
     {
-        $n = (int)$n;
+        $n = (int) $n;
         if ($n === 0) {
             return $this;
         }
@@ -414,7 +428,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function withPointMovedRight($n)
     {
-        $n = (int)$n;
+        $n = (int) $n;
         if ($n === 0) {
             return $this;
         }
@@ -602,7 +616,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function toScale($scale, $roundingMode = RoundingMode::UNNECESSARY)
     {
-        $scale = (int)$scale;
+        $scale = (int) $scale;
         if ($scale === $this->scale) {
             return $this;
         }
@@ -623,7 +637,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function toFloat()
     {
-        return (float)(string)$this;
+        return (float) (string) $this;
     }
 
     /**
@@ -666,7 +680,7 @@ final class BigDecimal extends Number implements \Serializable
 
         list($value, $scale) = explode(':', $value);
         $this->value = $value;
-        $this->scale = (int)$scale;
+        $this->scale = (int) $scale;
     }
 
     /**

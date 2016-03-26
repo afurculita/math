@@ -58,6 +58,20 @@ final class BigRational extends Number implements \Serializable
     }
 
     /**
+     * @param BigInteger $numerator        The numerator.
+     * @param BigInteger $denominator      The denominator.
+     * @param bool       $checkDemominator Whether to check the denominator for negative and zero.
+     *
+     * @internal
+     *
+     * @return static
+     */
+    public static function create(BigInteger $numerator, BigInteger $denominator, $checkDemominator)
+    {
+        return new static($numerator, $denominator, $checkDemominator);
+    }
+
+    /**
      * Creates a BigRational of the given value.
      *
      * @param \Arki\Math\Number|int|float|string $value
@@ -82,9 +96,9 @@ final class BigRational extends Number implements \Serializable
      *
      * @return BigRational
      *
-     * @throws NumberFormatException    If an argument does not represent a valid number.
-     * @throws \ArithmeticError     If an argument represents a non-integer number.
-     * @throws \DivisionByZeroError If the denominator is zero.
+     * @throws NumberFormatException If an argument does not represent a valid number.
+     * @throws \ArithmeticError      If an argument represents a non-integer number.
+     * @throws \DivisionByZeroError  If the denominator is zero.
      */
     public static function nd($numerator, $denominator)
     {
@@ -248,7 +262,7 @@ final class BigRational extends Number implements \Serializable
      *
      * @return BigRational The result.
      *
-     * @throws \ArithmeticError If the divisor is not a valid number.
+     * @throws \ArithmeticError     If the divisor is not a valid number.
      * @throws \DivisionByZeroError If the divisor is zero.
      */
     public function dividedBy($that)
@@ -271,7 +285,7 @@ final class BigRational extends Number implements \Serializable
      */
     public function power($exponent)
     {
-        $exponent = (int)$exponent;
+        $exponent = (int) $exponent;
         if ($exponent === 0) {
             $one = BigInteger::one();
 
@@ -412,8 +426,8 @@ final class BigRational extends Number implements \Serializable
      */
     public function __toString()
     {
-        $numerator = (string)$this->numerator;
-        $denominator = (string)$this->denominator;
+        $numerator = (string) $this->numerator;
+        $denominator = (string) $this->denominator;
         if ($denominator === '1') {
             return $numerator;
         }

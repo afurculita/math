@@ -68,7 +68,7 @@ final class NativeCalculator extends Calculator
         $this->init($left, $right, $leftDig, $rightDig, $leftNeg, $rightNeg, $leftLen, $rightLen);
 
         if ($leftLen <= $this->maxDigitsAddDiv && $rightLen <= $this->maxDigitsAddDiv) {
-            return (string)((int)$left + (int)$right);
+            return (string) ((int) $left + (int) $right);
         }
 
         if ($leftNeg === $rightNeg) {
@@ -120,7 +120,7 @@ final class NativeCalculator extends Calculator
         $this->init($left, $right, $leftDig, $rightDig, $leftNeg, $rightNeg, $leftLen, $rightLen);
 
         if ($leftLen <= $this->maxDigitsMul && $rightLen <= $this->maxDigitsMul) {
-            return (string)((int)$left * (int)$right);
+            return (string) ((int) $left * (int) $right);
         }
 
         $result = $this->doMul($leftDig, $rightDig, $leftLen, $rightLen);
@@ -172,14 +172,14 @@ final class NativeCalculator extends Calculator
         $this->init($left, $right, $leftDig, $rightDig, $leftNeg, $rightNeg, $leftLen, $rightLen);
 
         if ($leftLen <= $this->maxDigitsAddDiv && $rightLen <= $this->maxDigitsAddDiv) {
-            $left = (int)$left;
-            $right = (int)$right;
+            $left = (int) $left;
+            $right = (int) $right;
 
             $r = $left % $right;
             $q = ($left - $r) / $right;
 
-            $q = (string)$q;
-            $r = (string)$r;
+            $q = (string) $q;
+            $r = (string) $r;
 
             return [$q, $r];
         }
@@ -241,7 +241,7 @@ final class NativeCalculator extends Calculator
         $result = '';
 
         for ($i = $length - 1; $i >= 0; --$i) {
-            $sum = (int)$left[$i] + (int)$right[$i] + $carry;
+            $sum = (int) $left[$i] + (int) $right[$i] + $carry;
 
             if ($sum >= 10) {
                 $carry = 1;
@@ -296,7 +296,7 @@ final class NativeCalculator extends Calculator
         $result = '';
 
         for ($i = $length - 1; $i >= 0; --$i) {
-            $sum = (int)$left[$i] - (int)$right[$i] - $carry;
+            $sum = (int) $left[$i] - (int) $right[$i] - $carry;
 
             if ($sum < 0) {
                 $carry = 1;
@@ -336,7 +336,7 @@ final class NativeCalculator extends Calculator
             $line = str_repeat('0', $x - 1 - $i);
             $carry = 0;
             for ($j = $y - 1; $j >= 0; --$j) {
-                $mul = (int)$left[$i] * (int)$right[$j] + $carry;
+                $mul = (int) $left[$i] * (int) $right[$j] + $carry;
                 $digit = $mul % 10;
                 $carry = ($mul - $digit) / 10;
                 $line .= $digit;
@@ -436,8 +436,8 @@ final class NativeCalculator extends Calculator
         }
 
         for ($i = 0; $i < $x; ++$i) {
-            $lefti = (int)$left[$i];
-            $righti = (int)$right[$i];
+            $lefti = (int) $left[$i];
+            $righti = (int) $right[$i];
 
             if ($lefti > $righti) {
                 return 1;
@@ -451,7 +451,7 @@ final class NativeCalculator extends Calculator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function cmp($left, $right)
     {

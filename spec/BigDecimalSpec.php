@@ -341,7 +341,7 @@ class BigDecimalSpec extends ObjectBehavior
     function it_returns_the_minimum_of_the_given_values($values, $min)
     {
         // let
-        $this->beConstructedThroughMin(...$values);
+        call_user_func_array([$this, 'beConstructedThroughMin'], $values);
 
         // then
         $this->shouldBeAnInstanceOf(BigDecimal::class);
@@ -395,7 +395,7 @@ class BigDecimalSpec extends ObjectBehavior
     function it_finds_the_max_from_a_collection_of_decimals($values, $max)
     {
         // let
-        $this->beConstructedThroughMax(...$values);
+        call_user_func_array([$this, 'beConstructedThroughMax'], $values);
 
         // then
         $this->shouldBeAnInstanceOf(BigDecimal::class);
