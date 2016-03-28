@@ -11,8 +11,7 @@
         }
     ],
     "require":           {
-        "php":                    "~5.6|~7.0",
-        "symfony/polyfill-php70": "~1.1"
+        "php": "~7.0"
     },
     "require-dev":       {
         "afurculita/phpspec":                         "dev-master",
@@ -37,7 +36,7 @@
     "config":            {
         "bin-dir": "bin"
     },
-    "extra": {
+    "extra":             {
         "branch-alias": {
             "dev-master": "3.0-dev"
         }
