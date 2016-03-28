@@ -255,8 +255,8 @@ abstract class Calculator
      *
      * @return string
      *
-     * @throws \InvalidArgumentException  If the rounding mode is invalid.
-     * @throws \ArithmeticError           If RoundingMode::UNNECESSARY is provided but rounding is necessary.
+     * @throws \InvalidArgumentException If the rounding mode is invalid.
+     * @throws \ArithmeticError          If RoundingMode::UNNECESSARY is provided but rounding is necessary.
      */
     public function divRound($left, $right, $roundingMode)
     {
@@ -315,7 +315,7 @@ abstract class Calculator
                 break;
 
             case RoundingMode::HALF_EVEN:
-                $lastDigit = (int)substr($quotient, -1);
+                $lastDigit = (int) substr($quotient, -1);
                 $lastDigitIsEven = ($lastDigit % 2 === 0);
                 $increment = $lastDigitIsEven ? $discardedFractionSign() > 0 : $discardedFractionSign() >= 0;
                 break;

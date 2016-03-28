@@ -15,6 +15,17 @@ use Arki\Math\Calculator\Calculator;
 
 /**
  * Immutable, arbitrary-precision signed decimal numbers.
+ *
+ * An Arki\Math\BigDecimal consists of an arbitrary precision integer unscaled
+ * value and an integer scale. If zero or positive, the scale is the
+ * number of digits to the right of the decimal point. If negative,
+ * the unscaled value of the number is multiplied by ten to the power
+ * of the negation of the scale. The value of the number represented
+ * by the Arki\Math\BigDecimal is therefore ($unscaledValue × 10^(-scale)).
+ *
+ * The Arki\Math\BigDecimal class provides operations for arithmetic, scale manipulation,
+ * rounding, comparison, hashing, and format conversion. The __toString()
+ * method provides a canonical representation of an Arki\Math\BigDecimal.
  */
 final class BigDecimal extends Number implements \Serializable
 {
@@ -77,12 +88,12 @@ final class BigDecimal extends Number implements \Serializable
      */
     public static function ofUnscaledValue($value, $scale = 0)
     {
-        $scale = (int)$scale;
+        $scale = (int) $scale;
         if ($scale < 0) {
             throw new \InvalidArgumentException('The scale cannot be negative.');
         }
 
-        return new self((string)BigInteger::of($value), $scale);
+        return new self((string) BigInteger::of($value), $scale);
     }
 
     /**
@@ -210,7 +221,8 @@ final class BigDecimal extends Number implements \Serializable
      * @param int                                $roundingMode An optional rounding mode.
      *
      * @return BigDecimal
-     * @throws \ArithmeticError If the number is invalid or rounding was necessary.
+     *
+     * @throws \ArithmeticError     If the number is invalid or rounding was necessary.
      * @throws \DivisionByZeroError If the number is zero
      */
     public function dividedBy($that, $scale = null, $roundingMode = RoundingMode::UNNECESSARY)
@@ -222,7 +234,7 @@ final class BigDecimal extends Number implements \Serializable
         if ($scale === null) {
             $scale = $this->scale;
         } else {
-            $scale = (int)$scale;
+            $scale = (int) $scale;
             if ($scale < 0) {
                 throw new \InvalidArgumentException('Scale cannot be negative.');
             }
@@ -262,11 +274,11 @@ final class BigDecimal extends Number implements \Serializable
         $calculator = Calculator::get();
         foreach ([5, 2] as $prime) {
             for (; ;) {
-                $lastDigit = (int)substr($d, -1);
+                $lastDigit = (int) substr($d, -1);
                 if ($lastDigit % $prime !== 0) {
                     break;
                 }
-                $d = $calculator->divQ($d, (string)$prime);
+                $d = $calculator->divQ($d, (string) $prime);
                 ++$scale;
             }
         }
@@ -287,7 +299,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function power($exponent)
     {
-        $exponent = (int)$exponent;
+        $exponent = (int) $exponent;
         if ($exponent === 0) {
             return self::one();
         }
@@ -394,7 +406,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function withPointMovedLeft($n)
     {
-        $n = (int)$n;
+        $n = (int) $n;
         if ($n === 0) {
             return $this;
         }
@@ -414,7 +426,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function withPointMovedRight($n)
     {
-        $n = (int)$n;
+        $n = (int) $n;
         if ($n === 0) {
             return $this;
         }
@@ -434,9 +446,15 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * Returns a copy of this BigDecimal with any trailing zeros removed from the fractional part.
+     * Returns a BigDecimal which is numerically equal to this one
+     * but with any trailing zeros removed from the representation.
      *
-     * @return BigDecimal
+     * For example, stripping the trailing zeros from the BigDecimal value 600.0,
+     * which has [BigInteger, scale] components equals to [6000, 1], yields 6E2
+     * with [BigInteger, scale] components equals to [6, -2]. If this BigDecimal
+     * is numerically equal to zero, then BigDecimal.ZERO is returned.
+     *
+     * @return BigDecimal - a numerically equal BigDecimal with any trailing zeros removed.
      */
     public function stripTrailingZeros()
     {
@@ -461,7 +479,7 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * Returns the absolute value of this number.
+     * Returns a BigDecimal whose value is the absolute value of this BigDecimal, and whose scale is $this->scale().
      *
      * @return BigDecimal
      */
@@ -471,7 +489,7 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * Returns the negated value of this number.
+     * Returns a BigDecimal whose value is (-$this), and whose scale is $this->scale().
      *
      * @return BigDecimal
      */
@@ -481,7 +499,19 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * Compares this BigDecimal with the specified BigDecimal.
+     *
+     * Two BigDecimal objects that are equal in value but have a different scale (like 2.0 and 2.00)
+     * are considered equal by this method. This method is provided in preference to individual
+     * methods for each of the six boolean comparison operators (<, ==, >, >=, !=, <=).
+     * The suggested idiom for performing these comparisons is: (x.compareTo(y) <op> 0),
+     * where <op> is one of the six comparison operators.
+     *
+     * @param Number|float|int|string $that
+     *
+     * @return int - -1, 0, or 1 as this BigDecimal is numerically less than, equal to, or greater than val.
+     *
+     * @throws \DivisionByZeroError
      */
     public function compareTo($that)
     {
@@ -521,6 +551,13 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
+     * Returns the scale of this BigDecimal.
+     *
+     * If zero or positive, the scale is the number of digits to the right of
+     * the decimal point. If negative, the unscaled value of the number is
+     * multiplied by ten to the power of the negation of the scale. For example,
+     * a scale of -3 means the unscaled value is multiplied by 1000.
+     *
      * @return int
      */
     public function scale()
@@ -602,7 +639,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function toScale($scale, $roundingMode = RoundingMode::UNNECESSARY)
     {
-        $scale = (int)$scale;
+        $scale = (int) $scale;
         if ($scale === $this->scale) {
             return $this;
         }
@@ -623,7 +660,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function toFloat()
     {
-        return (float)(string)$this;
+        return (float) (string) $this;
     }
 
     /**
@@ -666,7 +703,7 @@ final class BigDecimal extends Number implements \Serializable
 
         list($value, $scale) = explode(':', $value);
         $this->value = $value;
-        $this->scale = (int)$scale;
+        $this->scale = (int) $scale;
     }
 
     /**

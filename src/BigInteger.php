@@ -76,12 +76,12 @@ final class BigInteger extends Number implements \Serializable
      * @return BigInteger The integer represented by the string argument in the specified base.
      *
      * @throws \Arki\Math\NumberFormatException If the string does not contain a parsable int.
-     * @throws \InvalidArgumentException If the base is out of range.
+     * @throws \InvalidArgumentException        If the base is out of range.
      */
     public static function parse($number, $base = 10)
     {
-        $number = (string)$number;
-        $base = (int)$base;
+        $number = (string) $number;
+        $base = (int) $base;
 
         if ($number === '') {
             throw new NumberFormatException('The value cannot be empty.');
@@ -136,11 +136,11 @@ final class BigInteger extends Number implements \Serializable
             }
 
             if ($index !== 0) {
-                $add = ($index === 1) ? $power : $calc->mul($power, (string)$index);
+                $add = ($index === 1) ? $power : $calc->mul($power, (string) $index);
                 $result = $calc->add($result, $add);
             }
 
-            $power = $calc->mul($power, (string)$base);
+            $power = $calc->mul($power, (string) $base);
         }
 
         return new self($sign.$result);
@@ -255,12 +255,12 @@ final class BigInteger extends Number implements \Serializable
      * Returns the result of the division of this number by the given one.
      *
      * @param \Arki\Math\Number|int|float|string $that         The divisor. Must be convertible to a BigInteger.
-     * @param int                     $roundingMode An optional rounding mode.
+     * @param int                                $roundingMode An optional rounding mode.
      *
      * @return BigInteger The result.
      *
-     * @throws \ArithmeticError If the divisor is not a valid number, is not convertible to a BigInteger,
-     *                             or RoundingMode::UNNECESSARY is used and the remainder is not zero.
+     * @throws \ArithmeticError     If the divisor is not a valid number, is not convertible to a BigInteger,
+     *                              or RoundingMode::UNNECESSARY is used and the remainder is not zero.
      * @throws \DivisionByZeroError If the divisor is zero
      */
     public function dividedBy($that, $roundingMode = RoundingMode::UNNECESSARY)
@@ -288,7 +288,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function power($exponent)
     {
-        $exponent = (int)$exponent;
+        $exponent = (int) $exponent;
         if ($exponent === 0) {
             return self::one();
         }
@@ -479,14 +479,14 @@ final class BigInteger extends Number implements \Serializable
             throw new \ArithmeticError(
                 sprintf(
                     '%s is out of range %d to %d and cannot be represented as an integer.',
-                    (string)$this,
+                    (string) $this,
                     ~PHP_INT_MAX,
                     PHP_INT_MAX
                 )
             );
         }
 
-        return (int)$this->value;
+        return (int) $this->value;
     }
 
     /**
@@ -494,7 +494,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function toFloat()
     {
-        return (float)$this->value;
+        return (float) $this->value;
     }
 
     /**
@@ -508,7 +508,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function toBase($base)
     {
-        $base = (int)$base;
+        $base = (int) $base;
         if ($base === 10) {
             return $this->value;
         }
@@ -522,11 +522,11 @@ final class BigInteger extends Number implements \Serializable
         if ($negative) {
             $value = substr($value, 1);
         }
-        $base = (string)$base;
+        $base = (string) $base;
         $result = '';
         while ($value !== '0') {
             list($value, $remainder) = $calc->divQR($value, $base);
-            $remainder = (int)$remainder;
+            $remainder = (int) $remainder;
             $result .= $dictionary[$remainder];
         }
         if ($negative) {
