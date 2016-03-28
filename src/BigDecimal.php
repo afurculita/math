@@ -15,6 +15,17 @@ use Arki\Math\Calculator\Calculator;
 
 /**
  * Immutable, arbitrary-precision signed decimal numbers.
+ *
+ * An Arki\Math\BigDecimal consists of an arbitrary precision integer unscaled
+ * value and an integer scale. If zero or positive, the scale is the
+ * number of digits to the right of the decimal point. If negative,
+ * the unscaled value of the number is multiplied by ten to the power
+ * of the negation of the scale. The value of the number represented
+ * by the Arki\Math\BigDecimal is therefore ($unscaledValue × 10^(-scale)).
+ *
+ * The Arki\Math\BigDecimal class provides operations for arithmetic, scale manipulation,
+ * rounding, comparison, hashing, and format conversion. The __toString()
+ * method provides a canonical representation of an Arki\Math\BigDecimal.
  */
 final class BigDecimal extends Number implements \Serializable
 {
@@ -448,9 +459,15 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * Returns a copy of this BigDecimal with any trailing zeros removed from the fractional part.
+     * Returns a BigDecimal which is numerically equal to this one
+     * but with any trailing zeros removed from the representation.
      *
-     * @return BigDecimal
+     * For example, stripping the trailing zeros from the BigDecimal value 600.0,
+     * which has [BigInteger, scale] components equals to [6000, 1], yields 6E2
+     * with [BigInteger, scale] components equals to [6, -2]. If this BigDecimal
+     * is numerically equal to zero, then BigDecimal.ZERO is returned.
+     *
+     * @return BigDecimal - a numerically equal BigDecimal with any trailing zeros removed.
      */
     public function stripTrailingZeros()
     {
@@ -475,7 +492,7 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * Returns the absolute value of this number.
+     * Returns a BigDecimal whose value is the absolute value of this BigDecimal, and whose scale is $this->scale().
      *
      * @return BigDecimal
      */
@@ -485,7 +502,7 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * Returns the negated value of this number.
+     * Returns a BigDecimal whose value is (-$this), and whose scale is $this->scale().
      *
      * @return BigDecimal
      */
@@ -495,7 +512,19 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * Compares this BigDecimal with the specified BigDecimal.
+     *
+     * Two BigDecimal objects that are equal in value but have a different scale (like 2.0 and 2.00)
+     * are considered equal by this method. This method is provided in preference to individual
+     * methods for each of the six boolean comparison operators (<, ==, >, >=, !=, <=).
+     * The suggested idiom for performing these comparisons is: (x.compareTo(y) <op> 0),
+     * where <op> is one of the six comparison operators.
+     *
+     * @param Number|float|int|string $that
+     *
+     * @return int - -1, 0, or 1 as this BigDecimal is numerically less than, equal to, or greater than val.
+     *
+     * @throws \DivisionByZeroError
      */
     public function compareTo($that)
     {
@@ -535,6 +564,13 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
+     * Returns the scale of this BigDecimal.
+     *
+     * If zero or positive, the scale is the number of digits to the right of
+     * the decimal point. If negative, the unscaled value of the number is
+     * multiplied by ten to the power of the negation of the scale. For example,
+     * a scale of -3 means the unscaled value is multiplied by 1000.
+     *
      * @return int
      */
     public function scale()

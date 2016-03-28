@@ -383,4 +383,17 @@ abstract class Number
      * @return string
      */
     abstract public function __toString();
+
+    /**
+     * Returns a string representation of this number.
+     *
+     * The output of this method can be parsed by the `of()` factory method;
+     * this will yield an object equal to this one, without any information loss.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return (string) $this;
+    }
 }
