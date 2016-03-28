@@ -6,16 +6,21 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-php:
-  - 7.0
-  - hhvm
+matrix:
+    include:
+        - php: 7
+          env: deps=low
+        - php: 7
+    fast_finish: true
 
 env:
   - CALCULATOR=GMP
   - CALCULATOR=BCMath
   - CALCULATOR=Native
 
-before_script: composer update --prefer-dist
+before_script:
+  - if [ "$deps" == "low" ]; then composer update --prefer-source --prefer-lowest --prefer-stable; fi
+  - if [ "$deps" != "low" ]; then composer install --prefer-source; fi
 
 script: bin/phpspec run -f pretty --verbose
 
