@@ -14,7 +14,7 @@ namespace Arki\Math;
 use Arki\Math\Exception\NumberFormatException;
 
 /**
- * Common interface for classes representing numeric values
+ * Common interface for classes representing numeric values.
  */
 abstract class Number
 {
@@ -52,8 +52,8 @@ abstract class Number
      *
      * @return \Arki\Math\Number
      *
-     * @throws NumberFormatException   If the format of the number is not valid.
-     * @throws \DivisionByZeroError If the value represents a rational number with a denominator of zero.
+     * @throws NumberFormatException If the format of the number is not valid.
+     * @throws \DivisionByZeroError  If the value represents a rational number with a denominator of zero.
      */
     public static function of($value)
     {
@@ -62,10 +62,10 @@ abstract class Number
         }
 
         if (is_int($value)) {
-            return new BigInteger((string)$value);
+            return new BigInteger((string) $value);
         }
 
-        $value = (string)$value;
+        $value = (string) $value;
         if (preg_match(self::$regexp, $value, $matches) !== 1) {
             throw new NumberFormatException('The given value does not represent a valid number.');
         }
@@ -82,7 +82,7 @@ abstract class Number
 
         if (isset($matches['fractional']) || isset($matches['exponent'])) {
             $fractional = isset($matches['fractional']) ? $matches['fractional'] : '';
-            $exponent = isset($matches['exponent']) ? (int)$matches['exponent'] : 0;
+            $exponent = isset($matches['exponent']) ? (int) $matches['exponent'] : 0;
             $unscaledValue = self::cleanUp($matches['integral'].$fractional);
             $scale = strlen($fractional) - $exponent;
             if ($scale < 0) {
@@ -124,7 +124,7 @@ abstract class Number
      * @return static The minimum value.
      *
      * @throws \InvalidArgumentException If no values are given.
-     * @throws \ArithmeticError       If an argument is not valid.
+     * @throws \ArithmeticError          If an argument is not valid.
      */
     public static function min(...$values)
     {
@@ -152,7 +152,7 @@ abstract class Number
      * @return static The maximum value.
      *
      * @throws \InvalidArgumentException If no values are given.
-     * @throws \ArithmeticError       If an argument is not valid.
+     * @throws \ArithmeticError          If an argument is not valid.
      */
     public static function max(...$values)
     {
@@ -403,4 +403,17 @@ abstract class Number
      * @return string
      */
     abstract public function __toString();
+
+    /**
+     * Returns a string representation of this number.
+     *
+     * The output of this method can be parsed by the `of()` factory method;
+     * this will yield an object equal to this one, without any information loss.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        return (string) $this;
+    }
 }
