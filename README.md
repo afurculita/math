@@ -13,7 +13,7 @@ $ composer require arkitekto/math
 
 ### Requirements
 
-This library requires `PHP 5.6`, `PHP 7` or `HHVM`.
+This library requires `PHP 7` or `HHVM`. For `PHP 5.6`, please install the 2.* version and for `PHP 5.5` please install the 1.* version.
 
 Although the library can work seamlessly on any PHP installation, it is highly recommended that you install the
 [GMP](http://php.net/manual/en/book.gmp.php) or [BCMath](http://php.net/manual/en/book.bc.php) extension
