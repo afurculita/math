@@ -4,6 +4,15 @@
     "minimum-stability": "dev",
     "prefer-stable":     true,
     "license":           "MIT",
+    "keywords":          [
+        "floating-point",
+        "arithmetic",
+        "math",
+        "rational",
+        "number",
+        "integer",
+        "big-integer"
+    ],
     "authors":           [
         {
             "name":  "Alexandru Furculita",
@@ -37,9 +46,9 @@
     "config":            {
         "bin-dir": "bin"
     },
-    "extra": {
+    "extra":             {
         "branch-alias": {
-            "dev-master": "2.1-dev"
+            "dev-master": "2.0-dev"
         }
     }
 }
