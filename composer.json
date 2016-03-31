@@ -4,6 +4,15 @@
     "minimum-stability": "dev",
     "prefer-stable":     true,
     "license":           "MIT",
+    "keywords":          [
+        "floating-point",
+        "arithmetic",
+        "math",
+        "rational",
+        "number",
+        "integer",
+        "big-integer"
+    ],
     "authors":           [
         {
             "name":  "Alexandru Furculita",
