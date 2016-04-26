@@ -12,3 +12,7 @@ CHANGELOG
 ### v2.0.0
 
 * Drop PHP 5.5 support
+
+### v3.0.0
+
+* Drop PHP 5.6 support
