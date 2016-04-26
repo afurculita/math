@@ -11,8 +11,6 @@
 
 namespace Arki\Math;
 
-use Arki\Math\Calculator\Calculator;
-
 /**
  * Immutable, arbitrary-precision signed decimal numbers.
  *
@@ -172,7 +170,7 @@ final class BigDecimal extends Number implements \Serializable
             return $this;
         }
         $this->scaleValues($this, $that, $a, $b);
-        $value = Calculator::get()->add($a, $b);
+        $value = Math::add($a, $b);
         $scale = $this->scale > $that->scale ? $this->scale : $that->scale;
 
         return new self($value, $scale);
@@ -196,7 +194,7 @@ final class BigDecimal extends Number implements \Serializable
             return $this;
         }
         $this->scaleValues($this, $that, $a, $b);
-        $value = Calculator::get()->sub($a, $b);
+        $value = Math::sub($a, $b);
         $scale = $this->scale > $that->scale ? $this->scale : $that->scale;
 
         return new self($value, $scale);
@@ -221,7 +219,7 @@ final class BigDecimal extends Number implements \Serializable
             return $this;
         }
 
-        $value = Calculator::get()->mul($this->value, $that->value);
+        $value = Math::mul($this->value, $that->value);
         $scale = $this->scale + $that->scale;
 
         return new self($value, $scale);
@@ -263,7 +261,7 @@ final class BigDecimal extends Number implements \Serializable
 
         $p = $this->valueWithMinScale($that->scale + $scale);
         $q = $that->valueWithMinScale($this->scale - $scale);
-        $result = Calculator::get()->divRound($p, $q, $roundingMode);
+        $result = Math::divRound($p, $q, $roundingMode);
 
         return new self($result, $scale);
     }
@@ -284,20 +282,22 @@ final class BigDecimal extends Number implements \Serializable
     public function exactlyDividedBy($that)
     {
         $that = self::of($that);
+
         if ($that->value === '0') {
             throw new \DivisionByZeroError();
         }
+
         $this->scaleValues($this, $that, $a, $b);
         $d = rtrim($b, '0');
         $scale = strlen($b) - strlen($d);
-        $calculator = Calculator::get();
+
         foreach ([5, 2] as $prime) {
             for (; ;) {
                 $lastDigit = (int) substr($d, -1);
                 if ($lastDigit % $prime !== 0) {
                     break;
                 }
-                $d = $calculator->divQ($d, (string) $prime);
+                $d = Math::divQ($d, (string) $prime);
                 ++$scale;
             }
         }
@@ -325,17 +325,17 @@ final class BigDecimal extends Number implements \Serializable
         if ($exponent === 1) {
             return $this;
         }
-        if ($exponent < 0 || $exponent > Calculator::MAX_POWER) {
+        if ($exponent < 0 || $exponent > Math::MAX_POWER) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The exponent %d is not in the range 0 to %d.',
                     $exponent,
-                    Calculator::MAX_POWER
+                    Math::MAX_POWER
                 )
             );
         }
 
-        return new self(Calculator::get()->pow($this->value, $exponent), $this->scale * $exponent);
+        return new self(Math::pow($this->value, $exponent), $this->scale * $exponent);
     }
 
     /**
@@ -357,7 +357,7 @@ final class BigDecimal extends Number implements \Serializable
         }
         $p = $this->valueWithMinScale($that->scale);
         $q = $that->valueWithMinScale($this->scale);
-        $quotient = Calculator::get()->divQ($p, $q);
+        $quotient = Math::divQ($p, $q);
 
         return new self($quotient, 0);
     }
@@ -381,7 +381,7 @@ final class BigDecimal extends Number implements \Serializable
         }
         $p = $this->valueWithMinScale($that->scale);
         $q = $that->valueWithMinScale($this->scale);
-        $remainder = Calculator::get()->divR($p, $q);
+        $remainder = Math::divR($p, $q);
         $scale = $this->scale > $that->scale ? $this->scale : $that->scale;
 
         return new self($remainder, $scale);
@@ -408,7 +408,7 @@ final class BigDecimal extends Number implements \Serializable
 
         $p = $this->valueWithMinScale($that->scale);
         $q = $that->valueWithMinScale($this->scale);
-        list($quotient, $remainder) = Calculator::get()->divQR($p, $q);
+        list($quotient, $remainder) = Math::divQR($p, $q);
         $scale = $this->scale > $that->scale ? $this->scale : $that->scale;
         $quotient = new self($quotient, 0);
         $remainder = new self($remainder, $scale);
@@ -514,7 +514,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function negate()
     {
-        return new self(Calculator::get()->neg($this->value), $this->scale);
+        return new self(Math::neg($this->value), $this->scale);
     }
 
     /**
@@ -543,7 +543,7 @@ final class BigDecimal extends Number implements \Serializable
         if ($that instanceof self) {
             $this->scaleValues($this, $that, $a, $b);
 
-            return Calculator::get()->cmp($a, $b);
+            return Math::cmp($a, $b);
         }
 
         return -$that->compareTo($this);

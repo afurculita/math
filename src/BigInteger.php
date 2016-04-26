@@ -11,7 +11,6 @@
 
 namespace Arki\Math;
 
-use Arki\Math\Calculator\Calculator;
 use Arki\Math\Exception\NumberFormatException;
 
 /**
@@ -92,8 +91,8 @@ final class BigInteger extends Number implements \Serializable
      */
     public static function parse($number, $base = 10)
     {
-        $number = (string) $number;
-        $base = (int) $base;
+        $number = (string)$number;
+        $base   = (int)$base;
 
         if ($number === '') {
             throw new NumberFormatException('The value cannot be empty.');
@@ -104,10 +103,10 @@ final class BigInteger extends Number implements \Serializable
         }
 
         if ($number[0] === '-') {
-            $sign = '-';
+            $sign   = '-';
             $number = substr($number, 1);
         } elseif ($number[0] === '+') {
-            $sign = '';
+            $sign   = '';
             $number = substr($number, 1);
         } else {
             $sign = '';
@@ -133,14 +132,13 @@ final class BigInteger extends Number implements \Serializable
             return new self($sign.$number);
         }
 
-        $calc = Calculator::get();
-        $number = strtolower($number);
-        $result = '0';
-        $power = '1';
+        $number     = strtolower($number);
+        $result     = '0';
+        $power      = '1';
         $dictionary = '0123456789abcdefghijklmnopqrstuvwxyz';
 
         for ($i = strlen($number) - 1; $i >= 0; --$i) {
-            $char = $number[$i];
+            $char  = $number[$i];
             $index = strpos($dictionary, $char);
 
             if ($index === false || $index >= $base) {
@@ -148,11 +146,11 @@ final class BigInteger extends Number implements \Serializable
             }
 
             if ($index !== 0) {
-                $add = ($index === 1) ? $power : $calc->mul($power, (string) $index);
-                $result = $calc->add($result, $add);
+                $add    = ($index === 1) ? $power : Math::mul($power, (string)$index);
+                $result = Math::add($result, $add);
             }
 
-            $power = $calc->mul($power, (string) $base);
+            $power = Math::mul($power, (string)$base);
         }
 
         return new self($sign.$result);
@@ -218,7 +216,7 @@ final class BigInteger extends Number implements \Serializable
         if ($that->value === '0') {
             return $this;
         }
-        $value = Calculator::get()->add($this->value, $that->value);
+        $value = Math::add($this->value, $that->value);
 
         return new self($value);
     }
@@ -238,7 +236,7 @@ final class BigInteger extends Number implements \Serializable
         if ($that->value === '0') {
             return $this;
         }
-        $value = Calculator::get()->sub($this->value, $that->value);
+        $value = Math::sub($this->value, $that->value);
 
         return new self($value);
     }
@@ -258,7 +256,7 @@ final class BigInteger extends Number implements \Serializable
         if ($that->value === '1') {
             return $this;
         }
-        $value = Calculator::get()->mul($this->value, $that->value);
+        $value = Math::mul($this->value, $that->value);
 
         return new self($value);
     }
@@ -284,7 +282,7 @@ final class BigInteger extends Number implements \Serializable
         if ($that->value === '0') {
             throw new \DivisionByZeroError();
         }
-        $result = Calculator::get()->divRound($this->value, $that->value, $roundingMode);
+        $result = Math::divRound($this->value, $that->value, $roundingMode);
 
         return new self($result);
     }
@@ -300,24 +298,24 @@ final class BigInteger extends Number implements \Serializable
      */
     public function power($exponent)
     {
-        $exponent = (int) $exponent;
+        $exponent = (int)$exponent;
         if ($exponent === 0) {
             return self::one();
         }
         if ($exponent === 1) {
             return $this;
         }
-        if ($exponent < 0 || $exponent > Calculator::MAX_POWER) {
+        if ($exponent < 0 || $exponent > Math::MAX_POWER) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'The exponent %d is not in the range 0 to %d.',
                     $exponent,
-                    Calculator::MAX_POWER
+                    Math::MAX_POWER
                 )
             );
         }
 
-        return new self(Calculator::get()->pow($this->value, $exponent));
+        return new self(Math::pow($this->value, $exponent));
     }
 
     /**
@@ -332,13 +330,16 @@ final class BigInteger extends Number implements \Serializable
     public function quotient($that)
     {
         $that = self::of($that);
+
         if ($that->value === '1') {
             return $this;
         }
+
         if ($that->value === '0') {
             throw new \DivisionByZeroError();
         }
-        $quotient = Calculator::get()->divQ($this->value, $that->value);
+
+        $quotient = Math::divQ($this->value, $that->value);
 
         return new self($quotient);
     }
@@ -358,7 +359,7 @@ final class BigInteger extends Number implements \Serializable
         if ($that->value === '0') {
             throw new \DivisionByZeroError();
         }
-        $remainder = Calculator::get()->divR($this->value, $that->value);
+        $remainder = Math::divR($this->value, $that->value);
 
         return new self($remainder);
     }
@@ -378,7 +379,7 @@ final class BigInteger extends Number implements \Serializable
         if ($that->value === '0') {
             throw new \DivisionByZeroError();
         }
-        list($quotient, $remainder) = Calculator::get()->divQR($this->value, $that->value);
+        list($quotient, $remainder) = Math::divQR($this->value, $that->value);
 
         return [
             new self($quotient),
@@ -404,7 +405,7 @@ final class BigInteger extends Number implements \Serializable
         if ($this->value === '0' && $that->value[0] !== '-') {
             return $that;
         }
-        $value = Calculator::get()->gcd($this->value, $that->value);
+        $value = Math::gcd($this->value, $that->value);
 
         return new self($value);
     }
@@ -426,7 +427,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function negate()
     {
-        return new self(Calculator::get()->neg($this->value));
+        return new self(Math::neg($this->value));
     }
 
     /**
@@ -436,7 +437,7 @@ final class BigInteger extends Number implements \Serializable
     {
         $that = Number::of($that);
         if ($that instanceof self) {
-            return Calculator::get()->cmp($this->value, $that->value);
+            return Math::cmp($this->value, $that->value);
         }
 
         return -$that->compareTo($this);
@@ -491,14 +492,14 @@ final class BigInteger extends Number implements \Serializable
             throw new \ArithmeticError(
                 sprintf(
                     '%s is out of range %d to %d and cannot be represented as an integer.',
-                    (string) $this,
+                    (string)$this,
                     ~PHP_INT_MAX,
                     PHP_INT_MAX
                 )
             );
         }
 
-        return (int) $this->value;
+        return (int)$this->value;
     }
 
     /**
@@ -506,7 +507,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function toFloat()
     {
-        return (float) $this->value;
+        return (float)$this->value;
     }
 
     /**
@@ -520,7 +521,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function toBase($base)
     {
-        $base = (int) $base;
+        $base = (int)$base;
         if ($base === 10) {
             return $this->value;
         }
@@ -528,19 +529,23 @@ final class BigInteger extends Number implements \Serializable
             throw new \InvalidArgumentException(sprintf('Base %d is out of range [2, 36]', $base));
         }
         $dictionary = '0123456789abcdefghijklmnopqrstuvwxyz';
-        $calc = Calculator::get();
-        $value = $this->value;
-        $negative = ($value[0] === '-');
+
+        $value      = $this->value;
+        $negative   = ($value[0] === '-');
+
         if ($negative) {
             $value = substr($value, 1);
         }
-        $base = (string) $base;
+
+        $base   = (string)$base;
         $result = '';
+
         while ($value !== '0') {
-            list($value, $remainder) = $calc->divQR($value, $base);
-            $remainder = (int) $remainder;
+            list($value, $remainder) = Math::divQR($value, $base);
+            $remainder = (int)$remainder;
             $result .= $dictionary[$remainder];
         }
+
         if ($negative) {
             $result .= '-';
         }
