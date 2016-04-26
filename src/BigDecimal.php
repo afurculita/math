@@ -61,19 +61,6 @@ final class BigDecimal extends Number implements \Serializable
     }
 
     /**
-     * @param string $value The unscaled value, validated.
-     * @param int    $scale The scale, validated as a positive or zero integer.
-     *
-     * @internal
-     *
-     * @return static
-     */
-    public static function create($value, $scale = 0)
-    {
-        return new static($value, $scale);
-    }
-
-    /**
      * Creates a BigDecimal of the given value.
      *
      * @param \Arki\Math\Number|int|float|string $value

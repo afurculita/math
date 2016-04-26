@@ -50,18 +50,6 @@ final class BigInteger extends Number implements \Serializable
     }
 
     /**
-     * @param string $value A string of digits, with optional leading minus sign.
-     *
-     * @internal
-     *
-     * @return static
-     */
-    public static function create($value)
-    {
-        return new static($value);
-    }
-
-    /**
      * Creates a BigInteger of the given value.
      *
      * @param \Arki\Math\Number|int|float|string $value

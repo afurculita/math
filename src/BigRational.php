@@ -58,20 +58,6 @@ final class BigRational extends Number implements \Serializable
     }
 
     /**
-     * @param BigInteger $numerator        The numerator.
-     * @param BigInteger $denominator      The denominator.
-     * @param bool       $checkDemominator Whether to check the denominator for negative and zero.
-     *
-     * @internal
-     *
-     * @return static
-     */
-    public static function create(BigInteger $numerator, BigInteger $denominator, $checkDemominator)
-    {
-        return new static($numerator, $denominator, $checkDemominator);
-    }
-
-    /**
      * Creates a BigRational of the given value.
      *
      * @param \Arki\Math\Number|int|float|string $value
