@@ -216,9 +216,11 @@ final class BigDecimal extends Number implements \Serializable
     public function multipliedBy($that)
     {
         $that = self::of($that);
+
         if ($that->value === '1' && $that->scale === 0) {
             return $this;
         }
+
         $value = Calculator::get()->mul($this->value, $that->value);
         $scale = $this->scale + $that->scale;
 
@@ -241,9 +243,11 @@ final class BigDecimal extends Number implements \Serializable
     public function dividedBy($that, $scale = null, $roundingMode = RoundingMode::UNNECESSARY)
     {
         $that = self::of($that);
+
         if ($that->isZero()) {
             throw new \DivisionByZeroError();
         }
+
         if ($scale === null) {
             $scale = $this->scale;
         } else {
@@ -252,9 +256,11 @@ final class BigDecimal extends Number implements \Serializable
                 throw new \InvalidArgumentException('Scale cannot be negative.');
             }
         }
-        if ($that->value === '1' && $scale === $this->scale) {
+
+        if ($that->value === '1' && $that->scale === 0 && $scale === 0) {
             return $this;
         }
+
         $p = $this->valueWithMinScale($that->scale + $scale);
         $q = $that->valueWithMinScale($this->scale - $scale);
         $result = Calculator::get()->divRound($p, $q, $roundingMode);
