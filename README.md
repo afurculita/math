@@ -19,7 +19,7 @@ You can install this library via [Composer](https://getcomposer.org/). Just defi
 
 ### Requirements
 
-This library requires PHP 5.6, PHP 7 or [HHVM](http://hhvm.com/).
+This library requires PHP 5.5, PHP 5.6, PHP 7 or [HHVM](http://hhvm.com/).
 
 Although the library can work seamlessly on any PHP installation, it is highly recommended that you install the
 [GMP](http://php.net/manual/en/book.gmp.php) or [BCMath](http://php.net/manual/en/book.bc.php) extension

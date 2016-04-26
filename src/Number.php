@@ -24,17 +24,7 @@ abstract class Number
      * @var string
      */
     private static $regexp =
-        '/^'.
-        '(?<integral>[\-\+]?[0-9]+)'.
-        '(?:'.
-        '(?:'.
-        '(?:\.(?<fractional>[0-9]+))?'.
-        '(?:[eE](?<exponent>[\-\+]?[0-9]+))?'.
-        ')'.'|'.'(?:'.
-        '(?:\/(?<denominator>[0-9]+))?'.
-        ')'.
-        ')?'.
-        '$/';
+        '/^(?<integral>[\-\+]?\d+)(?:(?:(?:\.(?<fractional>\d+))?(?:[eE](?<exponent>[\-\+]?\d+))?)|(?:(?:\/(?<denominator>\d+))?))?$/';
 
     /**
      * Creates a Number of the given value.
@@ -101,33 +91,21 @@ abstract class Number
     }
 
     /**
-     * Proxy method to access protected constructors from sibling classes.
-     *
-     * @internal
-     *
-     * @param mixed ...$args The arguments to the constructor.
-     *
-     * @return static
-     */
-    protected static function create(...$args)
-    {
-        return new static(...$args);
-    }
-
-    /**
      * Returns the minimum of the given values.
      *
-     * @param \Arki\Math\Number|int|float|string ...$values The numbers to compare. All the numbers need to be
-     *                                                      convertible to an instance of the class this method is
-     *                                                      called on.
+     * The arguments of this method are the numbers to compare.
+     * All the numbers need to be convertible to an instance of the class this method is called on.
      *
      * @return static The minimum value.
      *
      * @throws \InvalidArgumentException If no values are given.
      * @throws \ArithmeticError          If an argument is not valid.
      */
-    public static function min(...$values)
+    public static function min()
     {
+        /** @var \Arki\Math\Number[]|int[]|float[]|string[] $values */
+        $values = func_get_args();
+
         $min = null;
         foreach ($values as $value) {
             $value = static::of($value);
@@ -145,17 +123,19 @@ abstract class Number
     /**
      * Returns the maximum of the given values.
      *
-     * @param \Arki\Math\Number|int|float|string ...$values The numbers to compare. All the numbers need to be
-     *                                                      convertible to an instance of the class this method is
-     *                                                      called on.
+     * The arguments of this method are the numbers to compare.
+     * All the numbers need to be convertible to an instance of the class this method is called on.
      *
      * @return static The maximum value.
      *
      * @throws \InvalidArgumentException If no values are given.
      * @throws \ArithmeticError          If an argument is not valid.
      */
-    public static function max(...$values)
+    public static function max()
     {
+        /** @var \Arki\Math\Number[]|int[]|float[]|string[] $values */
+        $values = func_get_args();
+
         $max = null;
         foreach ($values as $value) {
             $value = static::of($value);

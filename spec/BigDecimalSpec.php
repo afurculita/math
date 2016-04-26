@@ -341,7 +341,7 @@ class BigDecimalSpec extends ObjectBehavior
     function it_returns_the_minimum_of_the_given_values($values, $min)
     {
         // let
-        $this->beConstructedThroughMin(...$values);
+        call_user_func_array([$this, 'beConstructedThroughMin'], $values);
 
         // then
         $this->shouldBeAnInstanceOf(BigDecimal::class);
@@ -395,7 +395,7 @@ class BigDecimalSpec extends ObjectBehavior
     function it_finds_the_max_from_a_collection_of_decimals($values, $max)
     {
         // let
-        $this->beConstructedThroughMax(...$values);
+        call_user_func_array([$this, 'beConstructedThroughMax'], $values);
 
         // then
         $this->shouldBeAnInstanceOf(BigDecimal::class);
@@ -681,10 +681,16 @@ class BigDecimalSpec extends ObjectBehavior
             ['7', '-0.2', 0, RoundingMode::UNNECESSARY, '-35', 0],
             ['-7', '0.2', 0, RoundingMode::UNNECESSARY, '-35', 0],
             ['-7', '-0.2', 0, RoundingMode::UNNECESSARY, '35', 0],
+
+            ['1234567890123456789', '0.01', 0, RoundingMode::UNNECESSARY, '123456789012345678900', 0],
+            ['1234567890123456789', '0.010', 0, RoundingMode::UNNECESSARY, '123456789012345678900', 0],
+
             ['1324794783847839472983.343898', '1', 6, RoundingMode::UNNECESSARY, '1324794783847839472983343898', 6],
             ['-32479478384783947298.3343898', '1', 7, RoundingMode::UNNECESSARY, '-324794783847839472983343898', 7],
+
             ['1.5', '2', 2, RoundingMode::UNNECESSARY, '75', 2],
             ['1.5', '3', 1, RoundingMode::UNNECESSARY, '5', 1],
+
             ['0.123456789', '0.00244140625', 10, RoundingMode::UNNECESSARY, '505679007744', 10],
             ['1.234', '123.456', 50, RoundingMode::DOWN, '999546397096941420425090720580611715914981855883', 50],
             ['1', '3', 10, RoundingMode::UP, '3333333334', 10],
