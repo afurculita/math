@@ -2,9 +2,13 @@
 
 namespace spec\Arki\Math;
 
+use Arki\Math\RoundingMode;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
+/**
+ * @mixin RoundingMode
+ */
 class RoundingModeSpec extends ObjectBehavior
 {
     function it_is_initializable()

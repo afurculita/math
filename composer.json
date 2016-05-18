@@ -24,10 +24,9 @@
         "symfony/polyfill-php70": "~1.1"
     },
     "require-dev":       {
-        "afurculita/phpspec":                         "dev-master",
-        "behat/behat":                                "~3.0",
-        "fabpot/php-cs-fixer":                        "~1.11",
-        "afurculita/phpspec-data-provider-extension": "dev-master"
+        "phpspec/phpspec":                       "2.*",
+        "fabpot/php-cs-fixer":                   "~1.11",
+        "coduo/phpspec-data-provider-extension": "1.0.*"
     },
     "autoload":          {
         "psr-4": {
