@@ -13,6 +13,8 @@ use Arki\Math\RoundingMode;
  * @method void shouldReturn($value)
  * @method void shouldBeAnInstanceOf($class)
  * @method void shouldBeEqualTo($value)
+ *
+ * @mixin BigInteger
  */
 class BigIntegerSpec extends ObjectBehavior
 {

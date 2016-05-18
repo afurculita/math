@@ -255,7 +255,7 @@ final class BigDecimal extends Number implements \Serializable
             }
         }
 
-        if ($that->value === '1' && $that->scale === 0 && $scale === 0) {
+        if ($that->value === '1' && $that->scale === 0 && $scale === $this->scale) {
             return $this;
         }
 
