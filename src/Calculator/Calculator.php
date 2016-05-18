@@ -29,64 +29,6 @@ use Arki\Math\RoundingMode;
 abstract class Calculator
 {
     /**
-     * The maximum exponent value allowed for the pow() method.
-     */
-    const MAX_POWER = 1000000;
-
-    /**
-     * The Calculator instance in use.
-     *
-     * @var Calculator|null
-     */
-    private static $instance;
-
-    /**
-     * Sets the Calculator instance to use.
-     *
-     * An instance is typically set only in unit tests: the autodetect is usually the best option.
-     *
-     * @param Calculator|null $calculator The calculator instance, or NULL to revert to autodetect.
-     */
-    public static function set(Calculator $calculator = null)
-    {
-        self::$instance = $calculator;
-    }
-
-    /**
-     * Returns the Calculator instance to use.
-     *
-     * If none has been explicitly set, the fastest available implementation will be returned.
-     *
-     * @return Calculator
-     */
-    public static function get()
-    {
-        if (null === self::$instance) {
-            self::$instance = self::detect();
-        }
-
-        return self::$instance;
-    }
-
-    /**
-     * Returns the fastest available Calculator implementation.
-     *
-     * @return Calculator
-     */
-    private static function detect()
-    {
-        if (extension_loaded('gmp')) {
-            return new GmpCalculator();
-        }
-
-        if (extension_loaded('bcmath')) {
-            return new BcMathCalculator();
-        }
-
-        return new NativeCalculator();
-    }
-
-    /**
      * Extracts the digits, sign, and length of the operands.
      *
      * @param string $left     The first operand.

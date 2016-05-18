@@ -19,6 +19,8 @@ use Prophecy\Argument;
  * @method void shouldHaveTheDenominatorEqualTo($denominator)
  * @method void shouldBeABigRationalEqualTo($value)
  * @method void shouldBeABigIntegerEqualTo($value)
+ *
+ * @mixin BigRational
  */
 class BigRationalSpec extends ObjectBehavior
 {
