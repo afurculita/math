@@ -8,3 +8,4 @@ suites:
 
 extensions:
   - Coduo\PhpSpec\DataProvider\DataProviderExtension
+  - spec\Arki\Math\Extension\CalculatorExtension
