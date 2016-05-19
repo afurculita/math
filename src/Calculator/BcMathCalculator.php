@@ -86,7 +86,7 @@ final class BcMathCalculator extends Calculator
      */
     public function pow($left, $exponent)
     {
-        return bcpow($left, $exponent);
+        return bcpow($left, (string)$exponent);
     }
 
     /**
