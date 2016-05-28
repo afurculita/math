@@ -3,7 +3,7 @@
 /*
  * This file is part of the Arkitekto\Math library.
  *
- * (c) Alexandru Furculita <alex@rhetina.com>
+ * (c) Alexandru Furculita <alex@furculita.net>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -26,30 +26,6 @@ use Arki\Math\RoundingMode;
  */
 abstract class Calculator
 {
-    /**
-     * Extracts the digits, sign, and length of the operands.
-     *
-     * @param string $left     The first operand.
-     * @param string $right    The second operand.
-     * @param string $leftDig  A variable to store the digits of the first operand.
-     * @param string $rightDig A variable to store the digits of the second operand.
-     * @param bool   $leftNeg  A variable to store whether the first operand is negative.
-     * @param bool   $rightNeg A variable to store whether the second operand is negative.
-     * @param bool   $leftLen  A variable to store the number of digits in the first operand.
-     * @param bool   $rightLen A variable to store the number of digits in the second operand.
-     */
-    final protected function init($left, $right, &$leftDig, &$rightDig, &$leftNeg, &$rightNeg, &$leftLen, &$rightLen)
-    {
-        $leftNeg  = ($left[0] === '-');
-        $rightNeg = ($right[0] === '-');
-
-        $leftDig  = $leftNeg ? substr($left, 1) : $left;
-        $rightDig = $rightNeg ? substr($right, 1) : $right;
-
-        $leftLen  = strlen($leftDig);
-        $rightLen = strlen($rightDig);
-    }
-
     /**
      * Returns the absolute value of a number.
      *
@@ -216,10 +192,10 @@ abstract class Calculator
         list($quotient, $remainder) = $this->divQR($left, $right);
 
         $hasDiscardedFraction = ($remainder !== '0');
-        $isPositiveOrZero     = ($left[0] === '-') === ($right[0] === '-');
+        $isPositiveOrZero = ($left[0] === '-') === ($right[0] === '-');
 
         $discardedFractionSign = function () use ($remainder, $right) {
-            $r     = $this->abs($this->mul($remainder, '2'));
+            $r = $this->abs($this->mul($remainder, '2'));
             $right = $this->abs($right);
 
             return $this->cmp($r, $right);
@@ -268,9 +244,9 @@ abstract class Calculator
                 break;
 
             case RoundingMode::HALF_EVEN:
-                $lastDigit       = (int) substr($quotient, -1);
+                $lastDigit = (int) substr($quotient, -1);
                 $lastDigitIsEven = ($lastDigit % 2 === 0);
-                $increment       = $lastDigitIsEven ? $discardedFractionSign() > 0 : $discardedFractionSign() >= 0;
+                $increment = $lastDigitIsEven ? $discardedFractionSign() > 0 : $discardedFractionSign() >= 0;
                 break;
 
             default:
@@ -282,5 +258,29 @@ abstract class Calculator
         }
 
         return $quotient;
+    }
+
+    /**
+     * Extracts the digits, sign, and length of the operands.
+     *
+     * @param string $left     The first operand.
+     * @param string $right    The second operand.
+     * @param string $leftDig  A variable to store the digits of the first operand.
+     * @param string $rightDig A variable to store the digits of the second operand.
+     * @param bool   $leftNeg  A variable to store whether the first operand is negative.
+     * @param bool   $rightNeg A variable to store whether the second operand is negative.
+     * @param bool   $leftLen  A variable to store the number of digits in the first operand.
+     * @param bool   $rightLen A variable to store the number of digits in the second operand.
+     */
+    final protected function init($left, $right, &$leftDig, &$rightDig, &$leftNeg, &$rightNeg, &$leftLen, &$rightLen)
+    {
+        $leftNeg = ($left[0] === '-');
+        $rightNeg = ($right[0] === '-');
+
+        $leftDig = $leftNeg ? substr($left, 1) : $left;
+        $rightDig = $rightNeg ? substr($right, 1) : $right;
+
+        $leftLen = strlen($leftDig);
+        $rightLen = strlen($rightDig);
     }
 }
