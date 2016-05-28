@@ -34,6 +34,15 @@ final class Math
     private static $calculator;
 
     /**
+     * @var Calculator[]
+     */
+    private static $calculators = [
+        BcMathCalculator::class,
+        GmpCalculator::class,
+        NativeCalculator::class,
+    ];
+
+    /**
      * This can't be constructed.
      */
     private function __construct()
@@ -224,28 +233,26 @@ final class Math
      */
     private static function get()
     {
-        if (null === self::$calculator) {
-            self::$calculator = self::detect();
+        if (self::$calculator === null) {
+            self::$calculator = self::initializeCalculator();
         }
 
         return self::$calculator;
     }
 
     /**
-     * Returns the fastest available Calculator implementation.
-     *
      * @return Calculator
+     *
+     * @throws \RuntimeException If cannot find calculator for math calculations
      */
-    private static function detect()
+    private static function initializeCalculator()
     {
-        if (extension_loaded('gmp')) {
-            return new GmpCalculator();
+        foreach (self::$calculators as $calculator) {
+            if ($calculator::supported()) {
+                return new $calculator();
+            }
         }
 
-        if (extension_loaded('bcmath')) {
-            return new BcMathCalculator();
-        }
-
-        return new NativeCalculator();
+        throw new \RuntimeException('Cannot find calculator for math calculations');
     }
 }
