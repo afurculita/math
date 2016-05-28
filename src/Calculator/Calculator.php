@@ -40,13 +40,13 @@ abstract class Calculator
      */
     final protected function init($left, $right, &$leftDig, &$rightDig, &$leftNeg, &$rightNeg, &$leftLen, &$rightLen)
     {
-        $leftNeg = ($left[0] === '-');
+        $leftNeg  = ($left[0] === '-');
         $rightNeg = ($right[0] === '-');
 
-        $leftDig = $leftNeg ? substr($left, 1) : $left;
+        $leftDig  = $leftNeg ? substr($left, 1) : $left;
         $rightDig = $rightNeg ? substr($right, 1) : $right;
 
-        $leftLen = strlen($leftDig);
+        $leftLen  = strlen($leftDig);
         $rightLen = strlen($rightDig);
     }
 
@@ -80,6 +80,17 @@ abstract class Calculator
         }
 
         return '-'.$operand;
+    }
+
+    /**
+     * Returns whether the calculator is supported in
+     * the current server environment.
+     *
+     * @return bool
+     */
+    public static function supported()
+    {
+        return true;
     }
 
     /**
@@ -205,10 +216,10 @@ abstract class Calculator
         list($quotient, $remainder) = $this->divQR($left, $right);
 
         $hasDiscardedFraction = ($remainder !== '0');
-        $isPositiveOrZero = ($left[0] === '-') === ($right[0] === '-');
+        $isPositiveOrZero     = ($left[0] === '-') === ($right[0] === '-');
 
         $discardedFractionSign = function () use ($remainder, $right) {
-            $r = $this->abs($this->mul($remainder, '2'));
+            $r     = $this->abs($this->mul($remainder, '2'));
             $right = $this->abs($right);
 
             return $this->cmp($r, $right);
@@ -257,9 +268,9 @@ abstract class Calculator
                 break;
 
             case RoundingMode::HALF_EVEN:
-                $lastDigit = (int) substr($quotient, -1);
+                $lastDigit       = (int) substr($quotient, -1);
                 $lastDigitIsEven = ($lastDigit % 2 === 0);
-                $increment = $lastDigitIsEven ? $discardedFractionSign() > 0 : $discardedFractionSign() >= 0;
+                $increment       = $lastDigitIsEven ? $discardedFractionSign() > 0 : $discardedFractionSign() >= 0;
                 break;
 
             default:

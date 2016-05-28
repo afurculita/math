@@ -23,6 +23,14 @@ final class GmpCalculator extends Calculator
     /**
      * {@inheritdoc}
      */
+    public static function supported()
+    {
+        return extension_loaded('gmp');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function add($left, $right)
     {
         return gmp_strval(gmp_add($left, $right));
