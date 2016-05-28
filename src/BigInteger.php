@@ -5,7 +5,7 @@ declare (strict_types = 1);
 /*
  * This file is part of the Arkitekto\Math library.
  *
- * (c) Alexandru Furculita <alex@rhetina.com>
+ * (c) Alexandru Furculita <alex@furculita.net>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -81,8 +81,8 @@ final class BigInteger extends Number implements \Serializable
      */
     public static function parse($number, $base = 10)
     {
-        $number = (string)$number;
-        $base   = (int)$base;
+        $number = (string) $number;
+        $base = (int) $base;
 
         if ($number === '') {
             throw new NumberFormatException('The value cannot be empty.');
@@ -93,10 +93,10 @@ final class BigInteger extends Number implements \Serializable
         }
 
         if ($number[0] === '-') {
-            $sign   = '-';
+            $sign = '-';
             $number = substr($number, 1);
         } elseif ($number[0] === '+') {
-            $sign   = '';
+            $sign = '';
             $number = substr($number, 1);
         } else {
             $sign = '';
@@ -122,13 +122,13 @@ final class BigInteger extends Number implements \Serializable
             return new self($sign.$number);
         }
 
-        $number     = strtolower($number);
-        $result     = '0';
-        $power      = '1';
+        $number = strtolower($number);
+        $result = '0';
+        $power = '1';
         $dictionary = '0123456789abcdefghijklmnopqrstuvwxyz';
 
         for ($i = strlen($number) - 1; $i >= 0; --$i) {
-            $char  = $number[$i];
+            $char = $number[$i];
             $index = strpos($dictionary, $char);
 
             if ($index === false || $index >= $base) {
@@ -136,11 +136,11 @@ final class BigInteger extends Number implements \Serializable
             }
 
             if ($index !== 0) {
-                $add    = ($index === 1) ? $power : Math::mul($power, (string)$index);
+                $add = ($index === 1) ? $power : Math::mul($power, (string) $index);
                 $result = Math::add($result, $add);
             }
 
-            $power = Math::mul($power, (string)$base);
+            $power = Math::mul($power, (string) $base);
         }
 
         return new self($sign.$result);
@@ -288,7 +288,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function power($exponent)
     {
-        $exponent = (int)$exponent;
+        $exponent = (int) $exponent;
         if ($exponent === 0) {
             return self::one();
         }
@@ -482,14 +482,14 @@ final class BigInteger extends Number implements \Serializable
             throw new \ArithmeticError(
                 sprintf(
                     '%s is out of range %d to %d and cannot be represented as an integer.',
-                    (string)$this,
+                    (string) $this,
                     ~PHP_INT_MAX,
                     PHP_INT_MAX
                 )
             );
         }
 
-        return (int)$this->value;
+        return (int) $this->value;
     }
 
     /**
@@ -497,7 +497,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function toFloat()
     {
-        return (float)$this->value;
+        return (float) $this->value;
     }
 
     /**
@@ -511,7 +511,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function toBase($base)
     {
-        $base = (int)$base;
+        $base = (int) $base;
         if ($base === 10) {
             return $this->value;
         }
@@ -520,19 +520,19 @@ final class BigInteger extends Number implements \Serializable
         }
         $dictionary = '0123456789abcdefghijklmnopqrstuvwxyz';
 
-        $value      = $this->value;
-        $negative   = ($value[0] === '-');
+        $value = $this->value;
+        $negative = ($value[0] === '-');
 
         if ($negative) {
             $value = substr($value, 1);
         }
 
-        $base   = (string)$base;
+        $base = (string) $base;
         $result = '';
 
         while ($value !== '0') {
             list($value, $remainder) = Math::divQR($value, $base);
-            $remainder = (int)$remainder;
+            $remainder = (int) $remainder;
             $result .= $dictionary[$remainder];
         }
 

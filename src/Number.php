@@ -5,7 +5,7 @@ declare (strict_types = 1);
 /*
  * This file is part of the Arkitekto\Math library.
  *
- * (c) Alexandru Furculita <alex@rhetina.com>
+ * (c) Alexandru Furculita <alex@furculita.net>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -170,30 +170,6 @@ abstract class Number
         }
 
         return $max;
-    }
-
-    /**
-     * Removes optional leading zeros and + sign from the given number.
-     *
-     * @param string $number The number, validated as a non-empty string of digits with optional sign.
-     *
-     * @return string
-     */
-    private static function cleanUp($number)
-    {
-        $firstChar = $number[0];
-        if ($firstChar === '+' || $firstChar === '-') {
-            $number = substr($number, 1);
-        }
-        $number = ltrim($number, '0');
-        if ($number === '') {
-            return '0';
-        }
-        if ($firstChar === '-') {
-            return '-'.$number;
-        }
-
-        return $number;
     }
 
     /**
@@ -417,5 +393,29 @@ abstract class Number
     public function toString()
     {
         return (string) $this;
+    }
+
+    /**
+     * Removes optional leading zeros and + sign from the given number.
+     *
+     * @param string $number The number, validated as a non-empty string of digits with optional sign.
+     *
+     * @return string
+     */
+    private static function cleanUp($number)
+    {
+        $firstChar = $number[0];
+        if ($firstChar === '+' || $firstChar === '-') {
+            $number = substr($number, 1);
+        }
+        $number = ltrim($number, '0');
+        if ($number === '') {
+            return '0';
+        }
+        if ($firstChar === '-') {
+            return '-'.$number;
+        }
+
+        return $number;
     }
 }
