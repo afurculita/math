@@ -31,6 +31,14 @@ final class BcMathCalculator extends Calculator
     /**
      * {@inheritdoc}
      */
+    public static function supported()
+    {
+        return extension_loaded('bcmath');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function add($left, $right)
     {
         return bcadd($left, $right);
