@@ -62,7 +62,7 @@ abstract class Number
         }
 
         if (is_int($value)) {
-            return BigInteger::parse((string) $value);
+            return new BigInteger((string) $value);
         }
 
         $value = (string) $value;
@@ -77,7 +77,7 @@ abstract class Number
                 throw new \DivisionByZeroError('The denominator of a rational number cannot be zero.');
             }
 
-            return new BigRational(BigInteger::parse($numerator), BigInteger::parse($denominator), false);
+            return new BigRational(new BigInteger($numerator), new BigInteger($denominator), false);
         }
 
         if (isset($matches['fractional']) || isset($matches['exponent'])) {
@@ -92,12 +92,12 @@ abstract class Number
                 $scale = 0;
             }
 
-            return new BigDecimal(BigInteger::create($unscaledValue), $scale);
+            return new BigDecimal(new BigInteger($unscaledValue), $scale);
         }
 
         $integral = self::cleanUp($matches['integral']);
 
-        return BigInteger::parse($integral);
+        return new BigInteger($integral);
     }
 
     /**
