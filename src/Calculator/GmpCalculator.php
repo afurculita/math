@@ -88,7 +88,7 @@ final class GmpCalculator extends Calculator
      */
     public function pow($left, $exponent)
     {
-        return gmp_strval(gmp_pow($left, $exponent));
+        return gmp_strval(gmp_pow($left, (int) $exponent));
     }
 
     /**
