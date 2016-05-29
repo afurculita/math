@@ -36,8 +36,6 @@ final class NativeCalculator extends Calculator
 
     /**
      * Class constructor.
-     *
-     * @codeCoverageIgnore
      */
     public function __construct()
     {
