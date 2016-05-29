@@ -19,7 +19,6 @@ return \Symfony\CS\Config\Config::create()
         'strict',
         'strict_param',
     ))
-    ->setUsingCache(true)
     ->finder(
         Symfony\CS\Finder\DefaultFinder::create()
             ->in('src')

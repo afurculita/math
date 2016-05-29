@@ -30,15 +30,12 @@ namespace Arki\Math;
 final class BigDecimal extends Number implements \Serializable
 {
     /**
-     * The unscaled value of this decimal number.
+     * The unscaled value of this BigDecimal.
      *
-     * This is a string of digits with an optional leading minus sign.
-     * No leading zero must be present.
-     * No leading minus sign must be present if the value is 0.
-     *
-     * @var string
+     * @var BigInteger
      */
-    private $value;
+    private $intVal;
+
     /**
      * The scale (number of digits after the decimal point) of this decimal number.
      *
@@ -51,12 +48,12 @@ final class BigDecimal extends Number implements \Serializable
     /**
      * Protected constructor. Use a factory method to obtain an instance.
      *
-     * @param string $value The unscaled value, validated.
-     * @param int    $scale The scale, validated as a positive or zero integer.
+     * @param BigInteger $intVal The unscaled value, validated.
+     * @param int        $scale  The scale, validated as a positive or zero integer.
      */
-    protected function __construct($value, $scale = 0)
+    protected function __construct(BigInteger $intVal, $scale = 0)
     {
-        $this->value = $value;
+        $this->intVal = $intVal;
         $this->scale = $scale;
     }
 
@@ -93,7 +90,7 @@ final class BigDecimal extends Number implements \Serializable
             throw new \InvalidArgumentException('The scale cannot be negative.');
         }
 
-        return new self((string) BigInteger::of($value), $scale);
+        return new self(BigInteger::of($value), $scale);
     }
 
     /**
@@ -105,7 +102,7 @@ final class BigDecimal extends Number implements \Serializable
     {
         static $zero;
         if ($zero === null) {
-            $zero = new self('0');
+            $zero = new self(BigInteger::zero());
         }
 
         return $zero;
@@ -120,7 +117,7 @@ final class BigDecimal extends Number implements \Serializable
     {
         static $one;
         if ($one === null) {
-            $one = new self('1');
+            $one = new self(BigInteger::one());
         }
 
         return $one;
@@ -135,7 +132,7 @@ final class BigDecimal extends Number implements \Serializable
     {
         static $ten;
         if ($ten === null) {
-            $ten = new self('10');
+            $ten = new self(BigInteger::ten());
         }
 
         return $ten;
@@ -155,14 +152,14 @@ final class BigDecimal extends Number implements \Serializable
     public function plus($that)
     {
         $that = self::of($that);
-        if ($that->value === '0' && $that->scale <= $this->scale) {
+        if ($that->intVal->isZero() && $that->scale <= $this->scale) {
             return $this;
         }
         $this->scaleValues($this, $that, $a, $b);
         $value = Math::add($a, $b);
         $scale = $this->scale > $that->scale ? $this->scale : $that->scale;
 
-        return new self($value, $scale);
+        return new self(BigInteger::of($value), $scale);
     }
 
     /**
@@ -179,14 +176,14 @@ final class BigDecimal extends Number implements \Serializable
     public function minus($that)
     {
         $that = self::of($that);
-        if ($that->value === '0' && $that->scale <= $this->scale) {
+        if ($that->intVal->isZero() && $that->scale <= $this->scale) {
             return $this;
         }
         $this->scaleValues($this, $that, $a, $b);
         $value = Math::sub($a, $b);
         $scale = $this->scale > $that->scale ? $this->scale : $that->scale;
 
-        return new self($value, $scale);
+        return new self(BigInteger::of($value), $scale);
     }
 
     /**
@@ -204,11 +201,11 @@ final class BigDecimal extends Number implements \Serializable
     {
         $that = self::of($that);
 
-        if ($that->value === '1' && $that->scale === 0) {
+        if ($that->intVal->isEqualTo('1') && $that->scale === 0) {
             return $this;
         }
 
-        $value = Math::mul($this->value, $that->value);
+        $value = $this->intVal->multipliedBy($that->intVal);
         $scale = $this->scale + $that->scale;
 
         return new self($value, $scale);
@@ -226,6 +223,7 @@ final class BigDecimal extends Number implements \Serializable
      *
      * @throws \ArithmeticError     If the number is invalid or rounding was necessary.
      * @throws \DivisionByZeroError If the number is zero
+     * @throws \InvalidArgumentException If the scale is negative
      */
     public function dividedBy($that, $scale = null, $roundingMode = RoundingMode::UNNECESSARY)
     {
@@ -244,7 +242,7 @@ final class BigDecimal extends Number implements \Serializable
             }
         }
 
-        if ($that->value === '1' && $that->scale === 0 && $scale === $this->scale) {
+        if ($that->intVal->isEqualTo('1') && $that->scale === 0 && $scale === $this->scale) {
             return $this;
         }
 
@@ -252,7 +250,7 @@ final class BigDecimal extends Number implements \Serializable
         $q = $that->valueWithMinScale($this->scale - $scale);
         $result = Math::divRound($p, $q, $roundingMode);
 
-        return new self($result, $scale);
+        return new self(BigInteger::parse($result), $scale);
     }
 
     /**
@@ -272,7 +270,7 @@ final class BigDecimal extends Number implements \Serializable
     {
         $that = self::of($that);
 
-        if ($that->value === '0') {
+        if ($that->intVal->isZero()) {
             throw new \DivisionByZeroError();
         }
 
@@ -308,12 +306,15 @@ final class BigDecimal extends Number implements \Serializable
     public function power($exponent)
     {
         $exponent = (int) $exponent;
+
         if ($exponent === 0) {
             return self::one();
         }
+
         if ($exponent === 1) {
             return $this;
         }
+
         if ($exponent < 0 || $exponent > Math::MAX_POWER) {
             throw new \InvalidArgumentException(
                 sprintf(
@@ -324,7 +325,7 @@ final class BigDecimal extends Number implements \Serializable
             );
         }
 
-        return new self(Math::pow($this->value, $exponent), $this->scale * $exponent);
+        return new self($this->intVal->power($exponent), $this->scale * $exponent);
     }
 
     /**
@@ -348,7 +349,7 @@ final class BigDecimal extends Number implements \Serializable
         $q = $that->valueWithMinScale($this->scale);
         $quotient = Math::divQ($p, $q);
 
-        return new self($quotient, 0);
+        return new self(BigInteger::of($quotient), 0);
     }
 
     /**
@@ -373,7 +374,7 @@ final class BigDecimal extends Number implements \Serializable
         $remainder = Math::divR($p, $q);
         $scale = $this->scale > $that->scale ? $this->scale : $that->scale;
 
-        return new self($remainder, $scale);
+        return new self(BigInteger::of($remainder), $scale);
     }
 
     /**
@@ -399,8 +400,8 @@ final class BigDecimal extends Number implements \Serializable
         $q = $that->valueWithMinScale($this->scale);
         list($quotient, $remainder) = Math::divQR($p, $q);
         $scale = $this->scale > $that->scale ? $this->scale : $that->scale;
-        $quotient = new self($quotient, 0);
-        $remainder = new self($remainder, $scale);
+        $quotient = new self(BigInteger::of($quotient), 0);
+        $remainder = new self(BigInteger::of($remainder), $scale);
 
         return [$quotient, $remainder];
     }
@@ -415,14 +416,16 @@ final class BigDecimal extends Number implements \Serializable
     public function withPointMovedLeft($n)
     {
         $n = (int) $n;
+
         if ($n === 0) {
             return $this;
         }
+
         if ($n < 0) {
             return $this->withPointMovedRight(-$n);
         }
 
-        return new self($this->value, $this->scale + $n);
+        return new self($this->intVal, $this->scale + $n);
     }
 
     /**
@@ -435,13 +438,16 @@ final class BigDecimal extends Number implements \Serializable
     public function withPointMovedRight($n)
     {
         $n = (int) $n;
+
         if ($n === 0) {
             return $this;
         }
+
         if ($n < 0) {
             return $this->withPointMovedLeft(-$n);
         }
-        $value = $this->value;
+
+        $value = (string) $this->intVal;
         $scale = $this->scale - $n;
         if ($scale < 0) {
             if ($value !== '0') {
@@ -450,7 +456,7 @@ final class BigDecimal extends Number implements \Serializable
             $scale = 0;
         }
 
-        return new self($value, $scale);
+        return new self(BigInteger::of($value), $scale);
     }
 
     /**
@@ -469,21 +475,23 @@ final class BigDecimal extends Number implements \Serializable
         if ($this->scale === 0) {
             return $this;
         }
-        $trimmedValue = rtrim($this->value, '0');
+        $trimmedValue = rtrim((string) $this->intVal, '0');
         if ($trimmedValue === '') {
             return self::zero();
         }
-        $trimmableZeros = strlen($this->value) - strlen($trimmedValue);
+
+        $trimmableZeros = strlen((string) $this->intVal) - strlen($trimmedValue);
         if ($trimmableZeros === 0) {
             return $this;
         }
+
         if ($trimmableZeros > $this->scale) {
             $trimmableZeros = $this->scale;
         }
-        $value = substr($this->value, 0, -$trimmableZeros);
+        $value = substr((string) $this->intVal, 0, -$trimmableZeros);
         $scale = $this->scale - $trimmableZeros;
 
-        return new self($value, $scale);
+        return new self(BigInteger::of($value), $scale);
     }
 
     /**
@@ -503,7 +511,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function negate()
     {
-        return new self(Math::neg($this->value), $this->scale);
+        return new self($this->intVal->negate(), $this->scale);
     }
 
     /**
@@ -543,11 +551,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function signum()
     {
-        if ($this->value === '0') {
-            return 0;
-        }
-
-        return ($this->value[0] === '-') ? -1 : 1;
+        return $this->intVal->signum();
     }
 
     /**
@@ -555,7 +559,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function unscaledValue()
     {
-        return $this->value;
+        return (string) $this->intVal;
     }
 
     /**
@@ -583,8 +587,9 @@ final class BigDecimal extends Number implements \Serializable
     public function integral()
     {
         if ($this->scale === 0) {
-            return $this->value;
+            return (string) $this->intVal;
         }
+
         $value = $this->getUnscaledValueWithLeadingZeros();
 
         return substr($value, 0, -$this->scale);
@@ -620,7 +625,7 @@ final class BigDecimal extends Number implements \Serializable
             $zeroScaleDecimal = $this->dividedBy(1, 0);
         }
 
-        return BigInteger::create($zeroScaleDecimal->value);
+        return $zeroScaleDecimal->intVal;
     }
 
     /**
@@ -636,10 +641,9 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function toBigRational()
     {
-        $numerator = BigInteger::create($this->value);
         $denominator = BigInteger::create('1'.str_repeat('0', $this->scale));
 
-        return BigRational::create($numerator, $denominator, false);
+        return BigRational::create($this->intVal, $denominator, false);
     }
 
     /**
@@ -677,8 +681,9 @@ final class BigDecimal extends Number implements \Serializable
     public function __toString()
     {
         if ($this->scale === 0) {
-            return $this->value;
+            return (string) $this->intVal;
         }
+
         $value = $this->getUnscaledValueWithLeadingZeros();
 
         return substr($value, 0, -$this->scale).'.'.substr($value, -$this->scale);
@@ -693,7 +698,7 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function serialize()
     {
-        return $this->value.':'.$this->scale;
+        return (string) $this->intVal.':'.$this->scale;
     }
 
     /**
@@ -705,12 +710,12 @@ final class BigDecimal extends Number implements \Serializable
      */
     public function unserialize($value)
     {
-        if ($this->value !== null || $this->scale !== null) {
+        if ($this->intVal !== null || $this->scale !== null) {
             throw new \LogicException('unserialize() is an internal function, it must not be called directly.');
         }
 
         list($value, $scale) = explode(':', $value);
-        $this->value = $value;
+        $this->intVal = BigInteger::of($value);
         $this->scale = (int) $scale;
     }
 
@@ -724,8 +729,8 @@ final class BigDecimal extends Number implements \Serializable
      */
     private function scaleValues(BigDecimal $x, BigDecimal $y, &$a, &$b)
     {
-        $a = $x->value;
-        $b = $y->value;
+        $a = (string) $x->intVal;
+        $b = (string) $y->intVal;
         if ($b !== '0' && $x->scale > $y->scale) {
             $b .= str_repeat('0', $x->scale - $y->scale);
         } elseif ($a !== '0' && $x->scale < $y->scale) {
@@ -740,8 +745,8 @@ final class BigDecimal extends Number implements \Serializable
      */
     private function valueWithMinScale($scale)
     {
-        $value = $this->value;
-        if ($this->value !== '0' && $scale > $this->scale) {
+        $value = (string) $this->intVal;
+        if (!$this->intVal->isZero() && $scale > $this->scale) {
             $value .= str_repeat('0', $scale - $this->scale);
         }
 
@@ -755,20 +760,25 @@ final class BigDecimal extends Number implements \Serializable
      */
     private function getUnscaledValueWithLeadingZeros()
     {
-        $value = $this->value;
+        $value = (string) $this->intVal;
         $targetLength = $this->scale + 1;
-        $negative = ($value[0] === '-');
+        $negative = $this->intVal->isNegative();
         $length = strlen($value);
+
         if ($negative) {
             --$length;
         }
+
         if ($length >= $targetLength) {
-            return $this->value;
+            return $value;
         }
+
         if ($negative) {
             $value = substr($value, 1);
         }
+
         $value = str_pad($value, $targetLength, '0', STR_PAD_LEFT);
+
         if ($negative) {
             $value = '-'.$value;
         }
