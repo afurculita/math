@@ -452,7 +452,7 @@ final class BigInteger extends Number implements \Serializable
      */
     public function toBigDecimal()
     {
-        return BigDecimal::create($this->value);
+        return BigDecimal::create($this);
     }
 
     /**
@@ -501,7 +501,7 @@ final class BigInteger extends Number implements \Serializable
     /**
      * Returns a string representation of this number in the given base.
      *
-     * @param int $base
+     * @param int|string $base
      *
      * @return string
      *
