@@ -3,7 +3,7 @@
 A `PHP` library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers. 
 Very useful when you need easier handling of large numbers inside financial application without precision loss.
 
-[![Build Status](https://secure.travis-ci.org/arkitekto/math.svg?branch=2.0)](http://travis-ci.org/arkitekto/math)
+[![Build Status](https://secure.travis-ci.org/arkitekto/math.svg?branch=2.0)](http://travis-ci.org/arkitekto/math?branch=2.0)
 
 ### Installation
 
@@ -44,10 +44,7 @@ of the mantissa. Hence, they cannot be converted into their internal binary coun
 This can lead to confusing results: for example, floor((0.1+0.7)*10) will usually return 7 instead of the expected 8, 
 since the internal representation will be something like 7.9999999999999991118....
 
-So never trust floating number results to the last digit, and do not compare floating point numbers directly for equality. 
-If higher precision is necessary, the arbitrary precision math functions and gmp functions are available.
-
-For a "simple" explanation, see the » floating point guide that's also titled "Why don’t my numbers add up?"
+So never trust floating number results to the last digit, and do not compare floating point numbers directly for equality.
 ```
 
 ### Overview
@@ -58,7 +55,7 @@ The constructors of the classes are not public, you must use a factory method to
 
 All classes provide an `of()` factory method that accepts any of the following types:
 
-- `Number` instances
+- `Arki\Math\Number` instances
 - `int` numbers
 - `float` numbers
 - `string` representations of integer, decimal and rational numbers
@@ -76,7 +73,10 @@ BigRational::of('2/3');
 BigRational::of('1.1'); // 11/10
 ```
 
-Note that all `of()` methods accept all of the representations above, *as long as it can be safely converted to
+
+##### Notes
+
+ - All `of()` methods accept all of the representations above, *as long as it can be safely converted to
 the current type*:
 
 ```php
@@ -87,17 +87,17 @@ BigDecimal::of('1/8'); // 0.125
 BigDecimal::of('1/3'); // ArithmeticError
 ```
 
-Note about native integers: instantiating from an `int` is safe *as long as you don't exceed the maximum
-value for your platform* (`PHP_INT_MAX`), in which case it would be transparently converted to `float` by PHP without
-notice, and could result in a loss of information. In doubt, prefer instantiating from a `string`, which supports
-an unlimited numbers of digits:
+ - Note about native integers: instantiating from an `int` is safe *as long as you don't exceed the maximum
+value for your platform* (`PHP_INT_MAX`, which is 9223372036854775807 on 64-bit systems and 2147483647 on 32-bit systems),
+in which case it would be transparently converted to `float` by PHP without notice, and could result in a loss of 
+information. In doubt, prefer instantiating from a `string`, which supports an unlimited numbers of digits:
 
 ```php
 echo BigInteger::of(999999999999999999999); // 1000000000000000000000
 echo BigInteger::of('999999999999999999999'); // 999999999999999999999
 ```
 
-Note about floating-point values: instantiating from a `float` might be unsafe, as floating-point values are
+ - Note about floating-point values: instantiating from a `float` might be unsafe, as floating-point values are
 imprecise by design, and could result in a loss of information. Always prefer instantiating from a `string`, which
 supports an unlimited number of digits:
 
