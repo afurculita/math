@@ -3,6 +3,8 @@
 A `PHP` library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers. 
 Very useful when you need easier handling of large numbers inside financial application without precision loss.
 
+[![Mathematics](docs/math.jpg)](http://www.pixelstalk.net/mathematics-backgrounds-download/)
+
 [![Build Status](https://secure.travis-ci.org/arkitekto/math.svg?branch=1.0)](http://travis-ci.org/arkitekto/math?branch=1.0)
 
 ### Installation
