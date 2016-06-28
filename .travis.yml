@@ -1,20 +1,25 @@
 language: php
 
+php:
+  - 7.0
+
+# This triggers builds to run on the new TravisCI infrastructure.
+# See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
 sudo: false
 
+## Cache composer
 cache:
   directories:
     - $HOME/.composer/cache
-
-php:
-  - 7.0
 
 env:
   - CALCULATOR=GMP
   - CALCULATOR=BCMath
   - CALCULATOR=Native
 
-before_script: composer update --prefer-dist
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
 
 script: bin/phpspec run -f pretty --verbose
 
