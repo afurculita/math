@@ -1,4 +1,4 @@
-# Arkitekto / Math [![Build Status](https://travis-ci.org/arkitekto/math.svg?branch=master)](https://travis-ci.org/arkitekto/math?branch=master)
+# Arkitekto / Math
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
