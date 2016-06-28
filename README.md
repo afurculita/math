@@ -1,25 +1,24 @@
 # arkitekto/math
 
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
+[![Quality Score][ico-code-quality]][link-code-quality]
+
 A `PHP` library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers. 
 Very useful when you need easier handling of large numbers inside financial application without precision loss.
 
 [![Mathematics](docs/math.jpg)](http://www.pixelstalk.net/mathematics-backgrounds-download/)
 
-[![Build Status](https://secure.travis-ci.org/arkitekto/math.svg?branch=2.0)](http://travis-ci.org/arkitekto/math?branch=2.0)
+## Install
 
-### Installation
+Via Composer
 
-You can install this library via [Composer](https://getcomposer.org/). Just define the following requirement in your `composer.json` file:
-
-```json
-{
-    "require": {
-        "arkitekto/math": "~2.0"
-    }
-}
+``` bash
+$ composer require arkitekto/math:~2.0
 ```
 
-### Requirements
+## Requirements
 
 This library requires PHP 5.6, PHP 7 or [HHVM](http://hhvm.com/).
 
@@ -27,7 +26,7 @@ Although the library can work seamlessly on any PHP installation, it is highly r
 [GMP](http://php.net/manual/en/book.gmp.php) or [BCMath](http://php.net/manual/en/book.bc.php) extension
 to speed up calculations. The fastest available calculator implementation will be automatically selected at runtime.
 
-### The issue with Floating point numbers
+## The issue with Floating point numbers
 
 Apart from solving the problem of working with numbers bigger than the allowed limit in PHP, this library tries to solve
 also the problem with loosing precision when using floating point numbers. 
@@ -49,9 +48,9 @@ since the internal representation will be something like 7.9999999999999991118..
 So never trust floating number results to the last digit, and do not compare floating point numbers directly for equality.
 ```
 
-### Overview
+## Usage
 
-#### Instantiation
+### Instantiation
 
 The constructors of the classes are not public, you must use a factory method to obtain an instance.
 
@@ -76,7 +75,7 @@ BigRational::of('1.1'); // 11/10
 ```
 
 
-##### Notes
+#### Notes
 
  - All `of()` methods accept all of the representations above, *as long as it can be safely converted to
 the current type*:
@@ -108,7 +107,7 @@ echo BigDecimal::of(1.99999999999999999999); // 2
 echo BigDecimal::of('1.99999999999999999999'); // 1.99999999999999999999
 ```
 
-#### Immutability & chaining
+### Immutability & chaining
 
 The `BigInteger`, `BigDecimal` and `BigRational` classes are immutable: their value never changes,
 so that they can be safely passed around. All methods that return a `BigInteger`, `BigDecimal` or `BigRational`
@@ -127,7 +126,7 @@ The methods can be chained for better readability:
 echo BigInteger::of(10)->plus(5)->multipliedBy(3); // 45
 ```
 
-#### Parameter types
+### Parameter types
 
 All methods that accept a number: `plus()`, `minus()`, `multipliedBy()`, etc. accept the same types as `of()`.
 For example, given the following number:
@@ -152,9 +151,9 @@ echo BigInteger::of(2)->multipliedBy(BigDecimal::of('2.5')); // ArithmeticError
 echo BigDecimal::of(2.5)->multipliedBy(BigInteger::of(2)); // 5.0
 ```
 
-#### Division & rounding
+### Division & rounding
 
-##### BigInteger
+#### BigInteger
 
 By default, dividing a `BigInteger` returns the exact result of the division, or throws an exception if the remainder
 of the division is not zero:
@@ -184,7 +183,7 @@ You can even get both at the same time:
 list ($quotient, $remainder) = BigInteger::of(1000)->quotientAndRemainder(3);
 ```
 
-##### BigDecimal
+#### BigDecimal
 
 Dividing a `BigDecimal` always requires a scale to be specified. If the exact result of the division does not fit in
 the given scale, a [rounding mode](./src/RoundingMode.php) must be provided.
@@ -205,7 +204,7 @@ echo BigDecimal::of(1)->exactlyDividedBy(256); // 0.00390625
 echo BigDecimal::of(1)->exactlyDividedBy(11); // RoundingNecessaryException
 ```
 
-##### BigRational
+#### BigRational
 
 The result of the division of a `BigRational` can always be represented exactly:
 
@@ -214,10 +213,51 @@ echo BigRational::of('123/456')->dividedBy('7'); // 123/3192
 echo BigRational::of('123/456')->dividedBy('9/8'); // 984/4104
 ```
 
-#### Serialization
+### Serialization
 
 `BigInteger`, `BigDecimal` and `BigRational` can be safely serialized on a machine and unserialized on another,
 even if these machines do not share the same set of PHP extensions.
 
 For example, serializing on a machine with GMP support and unserializing on a machine that does not have this extension
 installed will still work as expected.
+
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Testing
+
+``` bash
+$ composer test
+```
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
+
+## Security
+
+If you discover any security related issues, please email alex@furculita.net instead of using the issue tracker.
+
+## Credits
+
+- [Alexandru Furculita][link-author]
+- [All Contributors][link-contributors]
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+[ico-version]: https://img.shields.io/packagist/v/arkitekto/math.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/arkitekto/math/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/arkitekto/math.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/arkitekto/math.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/arkitekto/math.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/arkitekto/math
+[link-travis]: https://travis-ci.org/arkitekto/math
+[link-scrutinizer]: https://scrutinizer-ci.com/g/arkitekto/math/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/arkitekto/math
+[link-downloads]: https://packagist.org/packages/arkitekto/math
+[link-author]: https://github.com/:author_username
+[link-contributors]: ../../contributors
