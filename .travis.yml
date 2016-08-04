@@ -28,7 +28,7 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
 
-script: bin/phpspec run -f pretty --verbose
+script: composer test
 
 notifications:
     email: "alex@furculita.net"
