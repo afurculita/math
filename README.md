@@ -4,6 +4,7 @@
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
 [![Quality Score][ico-code-quality]][link-code-quality]
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fafurculita%2Fmath.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fafurculita%2Fmath?ref=badge_shield)
 
 > `PHP` library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers. 
 > Very useful when you need easier handling of large numbers inside financial application without precision loss.
@@ -261,3 +262,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-downloads]: https://packagist.org/packages/arkitekto/math
 [link-author]: https://github.com/:author_username
 [link-contributors]: ../../contributors
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fafurculita%2Fmath.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fafurculita%2Fmath?ref=badge_large)
